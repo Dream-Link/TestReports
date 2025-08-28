@@ -3,35 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auto-Save Test Tracker</title>
+    <title>Auto-Save Test Tracker Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     
     <style>
         /* --- CSS STYLES --- */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-        /* --- THEME DEFINITIONS (20+) --- */
-        :root, :root[data-theme="default-dark"] { --bg-image: linear-gradient(45deg, #282a36, #1e1f24); --card-bg: rgba(255, 255, 255, 0.08); --primary-text: #ffffff; --secondary-text: #b0b0b0; --accent-color: #4f46e5; --border-color: rgba(255, 255, 255, 0.1); --shadow-color: rgba(0, 0, 0, 0.37); --success-color: #22c55e; }
+        /* --- THEME DEFINITIONS (Improved Readability) --- */
+        :root, :root[data-theme="default-dark"] { --bg-image: linear-gradient(45deg, #282a36, #1e1f24); --card-bg: rgba(40, 42, 54, 0.85); --primary-text: #ffffff; --secondary-text: #b0b0b0; --accent-color: #8be9fd; --border-color: rgba(255, 255, 255, 0.15); --shadow-color: rgba(0, 0, 0, 0.4); --success-color: #50fa7b; }
         :root[data-theme="light"] { --bg-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%); --card-bg: rgba(255, 255, 255, 0.9); --primary-text: #1c1e21; --secondary-text: #606770; --accent-color: #1877f2; --border-color: rgba(0, 0, 0, 0.1); --shadow-color: rgba(0, 0, 0, 0.1); --success-color: #1c9c51; }
-        :root[data-theme="ocean"] { --bg-image: linear-gradient(to top, #0250c5 0%, #04befe 100%); --card-bg: rgba(255, 255, 255, 0.1); --primary-text: #fff; --secondary-text: #e0f7fa; --accent-color: #ffc400; }
-        :root[data-theme="forest"] { --bg-image: url('https://images.pexels.com/photos/957024/forest-trees-perspective-bright-957024.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'); --card-bg: rgba(10, 20, 10, 0.7); --primary-text: #f2e8cf; --secondary-text: #d4c2a4; --accent-color: #6a994e; }
-        :root[data-theme="sunset"] { --bg-image: linear-gradient(to right, #ff7e5f, #feb47b); --card-bg: rgba(0, 0, 0, 0.2); --primary-text: #ffffff; --secondary-text: #f5f5f5; --accent-color: #ffffff; }
-        :root[data-theme="rose-gold"] { --bg-image: linear-gradient(to right, #b79891, #94716b); --card-bg: rgba(255, 255, 255, 0.15); --primary-text: #fff; --secondary-text: #e0e0e0; --accent-color: #fde2e4; }
-        :root[data-theme="cyberpunk"] { --bg-image: linear-gradient(45deg, #000428, #004e92, #f0f); --card-bg: rgba(10, 10, 20, 0.5); --primary-text: #fff; --accent-color: #00f0ff; --secondary-text: #aaa; }
-        :root[data-theme="mint"] { --bg-image: linear-gradient(to right, #E0EFCF, #A7C4A5); --card-bg: rgba(255, 255, 255, 0.5); --primary-text: #216353; --secondary-text: #528E7E; --accent-color: #2E8B57; }
-        :root[data-theme="lavender"] { --bg-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%); --card-bg: rgba(255, 255, 255, 0.3); --primary-text: #3f3c62; --secondary-text: #5c5892; --accent-color: #9370DB; }
-        :root[data-theme="slate"] { --bg-image: linear-gradient(to right, #485563, #29323c); --card-bg: rgba(255, 255, 255, 0.1); --primary-text: #fff; --secondary-text: #ccc; --accent-color: #82aaff; }
-        :root[data-theme="mango"] { --bg-image: linear-gradient(to right, #fdbb2d, #22c1c3); --card-bg: rgba(0, 0, 0, 0.2); --primary-text: #fff; --secondary-text: #f0f0f0; --accent-color: #fff; }
-        :root[data-theme="deep-space"] { --bg-image: linear-gradient(to right, #434343 0%, black 100%); --card-bg: rgba(255, 255, 255, 0.05); --primary-text: #fff; --secondary-text: #aaa; --accent-color: #F89B29; }
-        :root[data-theme="nebula"] { --bg-image: url('https://images.pexels.com/photos/1169754/pexels-photo-1169754.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'); --card-bg: rgba(0, 0, 0, 0.4); --primary-text: #fff; --secondary-text: #e0e0e0; --accent-color: #d652c8; }
-        :root[data-theme="linen"] { --bg-image: url('https://www.transparenttextures.com/patterns/linen.png'), linear-gradient(#e6e6e6, #d5d5d5); --card-bg: rgba(255, 255, 255, 0.7); --primary-text: #333; --secondary-text: #555; --accent-color: #b22222; }
-        :root[data-theme="carbon"] { --bg-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png'), #333; --card-bg: rgba(0, 0, 0, 0.5); --primary-text: #fff; --secondary-text: #ccc; --accent-color: #d4af37; }
+        :root[data-theme="ocean"] { --bg-image: linear-gradient(to top, #0250c5 0%, #04befe 100%); --card-bg: rgba(2, 49, 122, 0.8); --primary-text: #fff; --secondary-text: #e0f7fa; --accent-color: #ffc400; }
+        :root[data-theme="forest"] { --bg-image: url('https://images.pexels.com/photos/957024/forest-trees-perspective-bright-957024.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'); --card-bg: rgba(10, 25, 10, 0.9); --primary-text: #f2e8cf; --secondary-text: #d4c2a4; --accent-color: #6a994e; }
+        :root[data-theme="sunset"] { --bg-image: linear-gradient(to right, #ff7e5f, #feb47b); --card-bg: rgba(0, 0, 0, 0.4); --primary-text: #ffffff; --secondary-text: #f5f5f5; --accent-color: #ffffff; }
+        :root[data-theme="rose-gold"] { --bg-image: linear-gradient(to right, #b79891, #94716b); --card-bg: rgba(183, 152, 145, 0.8); --primary-text: #fff; --secondary-text: #e0e0e0; --accent-color: #fde2e4; }
+        :root[data-theme="cyberpunk"] { --bg-image: linear-gradient(45deg, #000428, #004e92, #f0f); --card-bg: rgba(10, 10, 20, 0.8); --primary-text: #fff; --accent-color: #00f0ff; --secondary-text: #aaa; }
+        :root[data-theme="mint"] { --bg-image: linear-gradient(to right, #E0EFCF, #A7C4A5); --card-bg: rgba(255, 255, 255, 0.85); --primary-text: #216353; --secondary-text: #528E7E; --accent-color: #2E8B57; }
+        :root[data-theme="lavender"] { --bg-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%); --card-bg: rgba(255, 255, 255, 0.6); --primary-text: #3f3c62; --secondary-text: #5c5892; --accent-color: #9370DB; }
+        :root[data-theme="slate"] { --bg-image: linear-gradient(to right, #485563, #29323c); --card-bg: rgba(52, 63, 75, 0.9); --primary-text: #fff; --secondary-text: #ccc; --accent-color: #82aaff; }
+        :root[data-theme="mango"] { --bg-image: linear-gradient(to right, #fdbb2d, #22c1c3); --card-bg: rgba(0, 0, 0, 0.5); --primary-text: #fff; --secondary-text: #f0f0f0; --accent-color: #fff; }
+        :root[data-theme="deep-space"] { --bg-image: linear-gradient(to right, #434343 0%, black 100%); --card-bg: rgba(30, 30, 30, 0.8); --primary-text: #fff; --secondary-text: #aaa; --accent-color: #F89B29; }
+        :root[data-theme="nebula"] { --bg-image: url('https://images.pexels.com/photos/1169754/pexels-photo-1169754.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'); --card-bg: rgba(0, 0, 0, 0.7); --primary-text: #fff; --secondary-text: #e0e0e0; --accent-color: #d652c8; }
+        :root[data-theme="linen"] { --bg-image: url('https://www.transparenttextures.com/patterns/linen.png'), linear-gradient(#e6e6e6, #d5d5d5); --card-bg: rgba(255, 255, 255, 0.8); --primary-text: #333; --secondary-text: #555; --accent-color: #b22222; }
+        :root[data-theme="carbon"] { --bg-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png'), #333; --card-bg: rgba(0, 0, 0, 0.7); --primary-text: #fff; --secondary-text: #ccc; --accent-color: #d4af37; }
 
         /* --- GENERAL STYLES --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body { font-family: 'Poppins', sans-serif; background-color: var(--bg-color, #1f2029); background-image: var(--bg-image); background-size: cover; background-attachment: fixed; color: var(--primary-text); display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; padding: 20px; transition: background-color 0.5s; }
-        .container { width: 100%; max-width: 900px; background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border-color); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); box-shadow: 0 8px 32px 0 var(--shadow-color); padding: 30px; transition: background-color 0.5s, border-color 0.5s; }
+        .container { width: 100%; max-width: 900px; background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border-color); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); box-shadow: 0 8px 32px 0 var(--shadow-color); padding: 30px; transition: background-color 0.5s, border-color 0.5s; text-shadow: 0 1px 3px rgba(0,0,0,0.4); }
         
         header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 25px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
         .header-title { display: flex; flex-direction: column; }
@@ -52,12 +52,12 @@
         .cell-content { display: flex; flex-direction: column; align-items: center; gap: 10px; }
 
         .custom-checkbox input { display: none; }
-        .custom-checkbox label { cursor: pointer; width: 28px; height: 28px; border: 2px solid var(--border-color); border-radius: 8px; display: inline-block; position: relative; transition: all 0.3s ease; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .custom-checkbox label { cursor: pointer; width: 28px; height: 28px; border: 2px solid var(--border-color); border-radius: 8px; display: inline-block; position: relative; transition: all 0.3s ease; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3)); }
         .custom-checkbox input:checked + label { background-color: var(--accent-color); border-color: var(--accent-color); transform: scale(0.9); box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); }
-        .custom-checkbox input:checked + label::after { content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); color: white; font-size: 16px; }
+        .custom-checkbox input:checked + label::after { content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); color: white; font-size: 16px; text-shadow: none; }
 
         .number-bubbles-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; min-height: 25px; }
-        .number-bubble { background-color: var(--accent-color); color: white; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 600; }
+        .number-bubble { background-color: var(--accent-color); color: white; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 600; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3)); text-shadow: none; }
         .add-number-form { display: flex; align-items: center; gap: 5px; }
         .add-number-form input { width: 40px; padding: 2px 5px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 5px; color: var(--primary-text); text-align: center; -moz-appearance: textfield; }
         .add-number-form input::-webkit-outer-spin-button, .add-number-form input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
@@ -65,14 +65,15 @@
 
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; }
         .modal-overlay:not(.hidden) { opacity: 1; visibility: visible; }
-        .modal-content { background: var(--card-bg); padding: 30px; border-radius: 15px; border: 1px solid var(--border-color); box-shadow: 0 8px 32px 0 var(--shadow-color); width: 90%; max-width: 500px; position: relative; max-height: 80vh; overflow-y: auto; }
+        .modal-content { background: var(--card-bg); padding: 30px; border-radius: 15px; border: 1px solid var(--border-color); box-shadow: 0 8px 32px 0 var(--shadow-color); width: 90%; max-width: 500px; position: relative; max-height: 80vh; overflow-y: auto; text-shadow: 0 1px 3px rgba(0,0,0,0.4); }
         .modal-content.wide { max-width: 800px; }
         .close-btn { position: absolute; top: 15px; right: 15px; background: none; border: none; color: var(--primary-text); font-size: 1.8rem; cursor: pointer; }
-        #theme-selector { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 15px; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; }
+        #theme-selector { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 15px; margin-top: 15px; }
         .theme-swatch { height: 70px; border-radius: 10px; cursor: pointer; border: 2px solid var(--border-color); transition: transform 0.2s, border-color 0.2s; position: relative; overflow: hidden; }
         .theme-swatch:hover { transform: scale(1.05); }
         .theme-swatch.active { border-color: var(--accent-color); border-width: 3px; }
-        .theme-swatch span { position: absolute; bottom: 5px; left: 8px; font-size: 0.8rem; background: rgba(0,0,0,0.5); color: white; padding: 2px 5px; border-radius: 5px; }
+        .theme-swatch span { position: absolute; bottom: 5px; left: 8px; font-size: 0.8rem; background: rgba(0,0,0,0.5); color: white; padding: 2px 5px; border-radius: 5px; text-shadow: none; }
         .setting-section h3 { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; margin-bottom: 10px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px; }
         .add-btn { background: none; border: 1px solid var(--secondary-text); color: var(--secondary-text); width: 24px; height: 24px; border-radius: 50%; cursor: pointer; }
         .input-group { display: flex; align-items: center; margin-bottom: 10px; }
@@ -82,7 +83,7 @@
         .history-item { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; margin-bottom: 15px; }
         .history-item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         .history-item-header h4 { color: var(--accent-color); }
-        .print-btn { background: var(--accent-color); color: white; border: none; border-radius: 5px; padding: 5px 10px; cursor: pointer; }
+        .print-btn { background: var(--accent-color); color: white; border: none; border-radius: 5px; padding: 5px 10px; cursor: pointer; font-size: 0.8rem; }
         .history-item table { border-spacing: 0 4px; }
         .history-item table td { font-size: 0.9rem; padding: 8px; }
         .history-item .fa-check-circle { color: var(--success-color); }
@@ -98,19 +99,21 @@
         }
 
         @media print {
-            * { box-shadow: none !important; text-shadow: none !important; background: transparent !important; color: #000 !important; }
+            body { background: #fff !important; }
             body * { visibility: hidden; }
-            #printable-area, #printable-area * { visibility: visible; }
-            #printable-area { display: block !important; position: absolute; left: 0; top: 0; width: 100%; }
-            #printable-area h2 { text-align: center; margin: 20px; font-size: 24px; border-bottom: 2px solid #ccc; padding-bottom: 10px; }
-            #printable-area table { width: 95%; margin: 0 auto; border-collapse: collapse; font-size: 12pt; }
-            #printable-area th, #printable-area td { border: 1px solid #ccc; padding: 10px; text-align: left; vertical-align: top; }
-            #printable-area th { background-color: #f2f2f2 !important; }
-            #printable-area .cell-content { display: flex; flex-direction: column; align-items: center; gap: 8px !important; }
-            #printable-area .number-bubbles-container { display: flex; flex-wrap: wrap; gap: 5px !important; justify-content: center; }
-            #printable-area .fa-check-circle::before { content: "✔"; font-family: sans-serif; color: #008000 !important; }
-            #printable-area .fa-times-circle::before { content: "✖"; font-family: sans-serif; color: #999 !important; }
-            #printable-area .number-bubble { border: 1px solid #000; color: #000 !important; background: #fff !important; }
+            #printable-area, #printable-area * { visibility: visible; text-shadow: none !important; }
+            #printable-area { display: block !important; position: absolute; left: 0; top: 0; width: 100%; color: #000; }
+            .print-item { page-break-inside: avoid; margin-bottom: 30px; }
+            .print-item h2 { text-align: center; margin: 20px; font-size: 18px; border-bottom: 2px solid #ccc; padding-bottom: 10px; }
+            .print-item p { text-align: center; margin-top: -15px; margin-bottom: 20px; font-size: 12px; }
+            .print-item table { width: 95%; margin: 0 auto; border-collapse: collapse; font-size: 10pt; }
+            .print-item th, .print-item td { border: 1px solid #ccc; padding: 8px; text-align: left; vertical-align: top; }
+            .print-item th { background-color: #f2f2f2 !important; }
+            .print-item .cell-content { display: flex; flex-direction: column; align-items: center; gap: 8px !important; }
+            .print-item .number-bubbles-container { display: flex; flex-wrap: wrap; gap: 5px !important; justify-content: center; }
+            .print-item .fa-check-circle::before { content: "✔"; font-family: sans-serif; color: var(--success-color) !important; }
+            .print-item .fa-times-circle::before { content: "✖"; font-family: sans-serif; color: #999 !important; }
+            .print-item .number-bubble { background-color: var(--accent-color) !important; color: white !important; }
         }
     </style>
 </head>
@@ -133,7 +136,7 @@
 
     <div id="theme-modal" class="modal-overlay hidden"><div class="modal-content"><button class="close-btn">&times;</button><h2>थीम चुनें</h2><div id="theme-selector"></div></div></div>
     <div id="settings-modal" class="modal-overlay hidden"><div class="modal-content"><button class="close-btn">&times;</button><h2>सेटिंग्स</h2><div id="settings-form"><div class="setting-section" id="subject-names"><h3>विषयों के नाम <button class="add-btn" data-type="subject"><i class="fas fa-plus"></i></button></h3></div><div class="setting-section" id="platform-names"><h3>प्लेटफ़ॉर्म के नाम <button class="add-btn" data-type="platform"><i class="fas fa-plus"></i></button></h3></div><button id="save-settings-btn">सेटिंग्स सेव करें</button></div></div></div>
-    <div id="history-modal" class="modal-overlay hidden"><div class="modal-content wide"><button class="close-btn">&times;</button><h2>हिस्ट्री लॉग</h2><div id="history-content"></div></div></div>
+    <div id="history-modal" class="modal-overlay hidden"><div class="modal-content wide"><button class="close-btn">&times;</button><div class="modal-header"><h2>हिस्ट्री लॉग</h2><button id="print-all-btn" class="print-btn"><i class="fas fa-print"></i> सबको प्रिंट करें</button></div><div id="history-content"></div></div></div>
     
     <div id="printable-area"></div>
 
@@ -143,19 +146,17 @@
                 tableContainer: document.getElementById('tracker-table-container'),
                 saveStatus: document.getElementById('save-status'),
                 modals: { settings: document.getElementById('settings-modal'), history: document.getElementById('history-modal'), theme: document.getElementById('theme-modal'), },
-                buttons: { settings: document.getElementById('settings-btn'), history: document.getElementById('history-btn'), theme: document.getElementById('theme-btn'), saveSettings: document.getElementById('save-settings-btn'), },
+                buttons: { settings: document.getElementById('settings-btn'), history: document.getElementById('history-btn'), theme: document.getElementById('theme-btn'), saveSettings: document.getElementById('save-settings-btn'), printAll: document.getElementById('print-all-btn'), },
                 printableArea: document.getElementById('printable-area'),
             };
 
             const themes = [ "default-dark", "light", "ocean", "forest", "sunset", "rose-gold", "cyberpunk", "mint", "lavender", "slate", "mango", "deep-space", "nebula", "linen", "carbon" ];
             const defaultData = { subjects: ['गणित', 'विज्ञान', 'अंग्रेजी'], platforms: ['Platform-A', 'Platform-B'], checklist: {}, history: [], currentTheme: 'default-dark' };
-            let appData = JSON.parse(localStorage.getItem('testTrackerData_v5')) || defaultData;
+            let appData = JSON.parse(localStorage.getItem('testTrackerData_v6')) || defaultData;
             
             let historySaveTimer;
 
-            (function migrateData() { /* ... migration logic ... */ })();
-
-            function saveData() { localStorage.setItem('testTrackerData_v5', JSON.stringify(appData)); }
+            function saveData() { localStorage.setItem('testTrackerData_v6', JSON.stringify(appData)); }
             function applyTheme(themeName) { document.documentElement.setAttribute('data-theme', themeName); appData.currentTheme = themeName; saveData(); }
             
             function populateThemes() {
@@ -205,34 +206,19 @@
             }
             
             function autoSaveHistory() {
-                const today_id = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+                const today_id = new Date().toISOString().split('T')[0];
                 const today_display = new Date().toLocaleDateString('hi-IN', { day: 'numeric', month: 'long', year: 'numeric', weekday: 'long' });
-                
                 const existingEntryIndex = appData.history.findIndex(item => item.saveDate === today_id);
-                
-                const snapshot = {
-                    saveDate: today_id,
-                    displayDate: `${today_display} - ${new Date().toLocaleTimeString('hi-IN')}`,
-                    state: JSON.parse(JSON.stringify(appData.checklist)),
-                    subjects: [...appData.subjects],
-                    platforms: [...appData.platforms]
-                };
-
-                if (existingEntryIndex > -1) {
-                    appData.history[existingEntryIndex] = snapshot;
-                } else {
-                    appData.history.unshift(snapshot);
-                    if (appData.history.length > 365) appData.history.pop();
-                }
-                saveData();
-                updateSaveStatus('Last saved: just now', true);
+                const snapshot = { saveDate: today_id, displayDate: `${today_display} - ${new Date().toLocaleTimeString('hi-IN')}`, state: JSON.parse(JSON.stringify(appData.checklist)), subjects: [...appData.subjects], platforms: [...appData.platforms] };
+                if (existingEntryIndex > -1) { appData.history[existingEntryIndex] = snapshot; } else { appData.history.unshift(snapshot); if (appData.history.length > 365) appData.history.pop(); }
+                saveData(); updateSaveStatus('Last saved: just now', true);
             }
 
             function renderHistory() {
                 const content = document.getElementById('history-content');
                 if (appData.history.length === 0) { content.innerHTML = '<p>हिस्ट्री खाली है। बदलाव करने पर रिकॉर्ड अपने-आप सेव हो जाएगा।</p>'; return; }
                 content.innerHTML = appData.history.map((item, index) => {
-                    const table = renderTableForHistory(item, 'html');
+                    const table = renderTableForHistory(item);
                     return `<div class="history-item"><div class="history-item-header"><h4>${item.displayDate}</h4><button class="print-btn" data-history-index="${index}"><i class="fas fa-print"></i> प्रिंट</button></div>${table}</div>`;
                 }).join('');
             }
@@ -240,12 +226,22 @@
             function printHistory(index) {
                 const item = appData.history[index];
                 if (!item) return;
-                const content = `<h2>टेस्ट प्रोग्रेस रिपोर्ट</h2><p style="text-align:center; margin-top:-15px; margin-bottom:25px;">${item.displayDate}</p>` + renderTableForHistory(item, 'print');
+                const content = `<div class="print-item"><h2>टेस्ट प्रोग्रेस रिपोर्ट</h2><p>${item.displayDate}</p>${renderTableForHistory(item)}</div>`;
                 dom.printableArea.innerHTML = content;
                 window.print();
             }
 
-            function renderTableForHistory(item, type) {
+            function printAllHistory() {
+                if (appData.history.length === 0) { alert('प्रिंट करने के लिए कोई हिस्ट्री नहीं है।'); return; }
+                let allContent = '';
+                appData.history.forEach(item => {
+                    allContent += `<div class="print-item"><h2>टेस्ट प्रोग्रेस रिपोर्ट</h2><p>${item.displayDate}</p>${renderTableForHistory(item)}</div>`;
+                });
+                dom.printableArea.innerHTML = allContent;
+                window.print();
+            }
+
+            function renderTableForHistory(item) {
                 let table = '<table><thead><tr><th>विषय</th>' + item.platforms.map(p => `<th>${p}</th>`).join('') + '</tr></thead><tbody>';
                 table += item.subjects.map((s, sIndex) => {
                     let row = `<tr><td>${s}</td>`;
@@ -261,50 +257,24 @@
                 return table + '</tbody></table>';
             }
 
-            // --- EVENT LISTENERS ---
             dom.tableContainer.addEventListener('click', (e) => {
-                const cellContent = e.target.closest('.cell-content');
-                if (!cellContent) return;
-                const id = cellContent.dataset.id;
-                
-                let changed = false;
-                if (e.target.tagName === 'LABEL' || e.target.tagName === 'INPUT' && e.target.type === 'checkbox') {
-                    appData.checklist[id].checked = document.getElementById(id).checked;
-                    changed = true;
-                } else if (e.target.classList.contains('add-number-btn')) {
-                    const input = e.target.previousElementSibling;
-                    const num = parseInt(input.value);
-                    if (!isNaN(num)) {
-                        appData.checklist[id].numbers.push(num);
-                        input.value = '';
-                        renderTable(); // Re-render for immediate feedback
-                        changed = true;
-                    }
-                }
-                if (changed) {
-                    saveData();
-                    updateSaveStatus('Saving...');
-                    clearTimeout(historySaveTimer);
-                    historySaveTimer = setTimeout(autoSaveHistory, 2000); // 2 second debounce
-                }
+                const cellContent = e.target.closest('.cell-content'); if (!cellContent) return; const id = cellContent.dataset.id; let changed = false;
+                if (e.target.tagName === 'LABEL' || e.target.tagName === 'INPUT' && e.target.type === 'checkbox') { appData.checklist[id].checked = document.getElementById(id).checked; changed = true;
+                } else if (e.target.classList.contains('add-number-btn')) { const input = e.target.previousElementSibling; const num = parseInt(input.value); if (!isNaN(num)) { appData.checklist[id].numbers.push(num); input.value = ''; renderTable(); changed = true; } }
+                if (changed) { saveData(); updateSaveStatus('Saving...'); clearTimeout(historySaveTimer); historySaveTimer = setTimeout(autoSaveHistory, 2000); }
             });
 
             dom.buttons.theme.addEventListener('click', () => { populateThemes(); openModal(dom.modals.theme); });
             dom.buttons.settings.addEventListener('click', () => { populateSettings(); openModal(dom.modals.settings); });
             dom.buttons.saveSettings.addEventListener('click', applySettings);
             dom.buttons.history.addEventListener('click', () => { renderHistory(); openModal(dom.modals.history); });
+            dom.buttons.printAll.addEventListener('click', printAllHistory);
 
-            dom.modals.settings.addEventListener('click', (e) => {
-                const addBtn = e.target.closest('.add-btn'); const deleteBtn = e.target.closest('.delete-btn');
-                if (addBtn) addSettingInput(addBtn.dataset.type); if (deleteBtn) deleteBtn.closest('.input-group').remove();
-            });
-            dom.modals.history.addEventListener('click', (e) => { const printBtn = e.target.closest('.print-btn'); if (printBtn) printHistory(parseInt(printBtn.dataset.historyIndex)); });
+            dom.modals.settings.addEventListener('click', (e) => { const addBtn = e.target.closest('.add-btn'); const deleteBtn = e.target.closest('.delete-btn'); if (addBtn) addSettingInput(addBtn.dataset.type); if (deleteBtn) deleteBtn.closest('.input-group').remove(); });
+            dom.modals.history.addEventListener('click', (e) => { const printBtn = e.target.closest('.print-btn:not(#print-all-btn)'); if (printBtn) printHistory(parseInt(printBtn.dataset.historyIndex)); });
             document.querySelectorAll('.modal-overlay .close-btn').forEach(btn => btn.addEventListener('click', () => closeModal(btn.closest('.modal-overlay'))));
 
-            // --- INITIALIZATION ---
-            applyTheme(appData.currentTheme);
-            renderTable();
-            updateSaveStatus('Synced', true);
+            applyTheme(appData.currentTheme); renderTable(); updateSaveStatus('Synced', true);
         });
     </script>
 </body>

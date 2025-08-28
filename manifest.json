@@ -1,0 +1,24 @@
+{
+  "name": "Test Progress Tracker Pro",
+  "short_name": "Test Tracker",
+  "description": "A modern, offline-first app to track test progress across multiple subjects and platforms.",
+  "start_url": "tracker.html",
+  "display": "standalone",
+  "background_color": "#282a36",
+  "theme_color": "#282a36",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ]
+}

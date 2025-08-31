@@ -1,5 +1,5 @@
 // v1 of the service worker
-const CACHE_NAME = 'test-tracker-cache-v1';
+const CACHE_NAME = 'Daily Subjects Tracker-cache-v1';
 // List of files that make up the app shell
 const urlsToCache = [
   '.', // This caches the root URL
@@ -61,3 +61,4 @@ self.addEventListener('fetch', event => {
     )
   );
 });
+

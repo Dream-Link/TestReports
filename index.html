@@ -7,13 +7,13 @@
     <meta name="theme-color" content="#667eea"/>
     <link rel="apple-touch-icon" href="icons/icon-192x192.png">
     <link rel="manifest" href="manifest.json">
-    
+
     <title>Daily Subjects Tracker</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; }
-        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); transition: background 0.5s ease; }
         .card-shadow { box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
         .task-item { transition: all 0.3s ease; }
         .task-item:hover { transform: translateY(-2px); }
@@ -46,6 +46,10 @@
                 <button onclick="openHistoryModal()" 
                         class="bg-white bg-opacity-20 hover:bg-opacity-30 p-2 rounded-full transition-all duration-300 hover:scale-110">
                     <span class="text-sm">📅</span>
+                </button>
+                <button onclick="openThemesModal()" 
+                        class="bg-white bg-opacity-20 hover:bg-opacity-30 p-2 rounded-full transition-all duration-300 hover:scale-110">
+                    <span class="text-sm">🎨</span>
                 </button>
             </div>
         </div>
@@ -111,6 +115,44 @@
         </div>
     </div>
 
+    <div id="themesModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 no-print">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-xl max-w-2xl w-full p-6 transform transition-all max-h-96 overflow-y-auto">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">🎨 Themes</h2>
+                    <button onclick="closeThemesModal()" class="text-gray-500 hover:text-gray-700 text-2xl">✕</button>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div onclick="applyTheme('default')" class="cursor-pointer p-4 rounded-lg border-2 hover:border-blue-500 transition-all">
+                        <div class="h-16 rounded mb-2" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+                        <p class="text-sm font-medium text-center">Default</p>
+                    </div>
+                    <div onclick="applyTheme('sunset')" class="cursor-pointer p-4 rounded-lg border-2 hover:border-blue-500 transition-all">
+                        <div class="h-16 rounded mb-2" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+                        <p class="text-sm font-medium text-center">Sunset</p>
+                    </div>
+                    <div onclick="applyTheme('forest')" class="cursor-pointer p-4 rounded-lg border-2 hover:border-blue-500 transition-all">
+                        <div class="h-16 rounded mb-2" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
+                        <p class="text-sm font-medium text-center">Forest</p>
+                    </div>
+                    <div onclick="applyTheme('ocean')" class="cursor-pointer p-4 rounded-lg border-2 hover:border-blue-500 transition-all">
+                        <div class="h-16 rounded mb-2" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);"></div>
+                        <p class="text-sm font-medium text-center">Ocean</p>
+                    </div>
+                    <div onclick="applyTheme('lavender')" class="cursor-pointer p-4 rounded-lg border-2 hover:border-blue-500 transition-all">
+                        <div class="h-16 rounded mb-2" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);"></div>
+                        <p class="text-sm font-medium text-center">Lavender</p>
+                    </div>
+                    <div onclick="applyTheme('golden')" class="cursor-pointer p-4 rounded-lg border-2 hover:border-blue-500 transition-all">
+                        <div class="h-16 rounded mb-2" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);"></div>
+                        <p class="text-sm font-medium text-center">Golden</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="historyModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 no-print">
         <div class="flex items-center justify-center min-h-screen p-4">
             <div class="bg-white rounded-xl max-w-lg w-full p-6 transform transition-all max-h-96 overflow-y-auto">
@@ -152,14 +194,25 @@
         let subjects = [];
         let history = {};
         let currentHistoryDate = null;
+        let currentTheme = 'default';
 
         // Initialize app
         function init() {
             loadData();
+            loadSavedTheme();
             updateCurrentDate();
             loadHistoryDates();
             renderSubjects();
-            setInterval(sortSubjectsByTime, 60000); // Sort every minute
+            setInterval(sortSubjectsByTime, 30000); // Sort every 30 seconds for live updates
+            sortSubjectsByTime(); // Initial sort
+        }
+
+        // Load saved theme
+        function loadSavedTheme() {
+            const savedTheme = localStorage.getItem('selectedTheme');
+            if (savedTheme && themes[savedTheme]) {
+                applyTheme(savedTheme);
+            }
         }
 
         // Update current date display
@@ -175,26 +228,32 @@
         }
 
         // Modal functions
-        function openAddSubjectModal() {
-            document.getElementById('addSubjectModal').classList.remove('hidden');
-            document.getElementById('modalSubjectName').focus();
-        }
+        function openAddSubjectModal() { document.getElementById('addSubjectModal').classList.remove('hidden'); document.getElementById('modalSubjectName').focus(); }
+        function closeAddSubjectModal() { document.getElementById('addSubjectModal').classList.add('hidden'); document.getElementById('modalSubjectName').value = ''; document.getElementById('modalSubjectStartTime').value = ''; document.getElementById('modalSubjectEndTime').value = ''; }
+        function openHistoryModal() { document.getElementById('historyModal').classList.remove('hidden'); loadHistoryDatesInModal(); showHistoryPreview(); }
+        function closeHistoryModal() { document.getElementById('historyModal').classList.add('hidden'); }
+        function openThemesModal() { document.getElementById('themesModal').classList.remove('hidden'); }
+        function closeThemesModal() { document.getElementById('themesModal').classList.add('hidden'); }
 
-        function closeAddSubjectModal() {
-            document.getElementById('addSubjectModal').classList.add('hidden');
-            document.getElementById('modalSubjectName').value = '';
-            document.getElementById('modalSubjectStartTime').value = '';
-            document.getElementById('modalSubjectEndTime').value = '';
-        }
+        // Theme configurations
+        const themes = {
+            default: { gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: '#667eea' },
+            sunset: { gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', color: '#f093fb' },
+            forest: { gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', color: '#4facfe' },
+            ocean: { gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)', color: '#43e97b' },
+            lavender: { gradient: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)', color: '#fa709a' },
+            golden: { gradient: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)', color: '#ffecd2' }
+        };
 
-        function openHistoryModal() {
-            document.getElementById('historyModal').classList.remove('hidden');
-            loadHistoryDatesInModal();
-            showHistoryPreview();
-        }
-
-        function closeHistoryModal() {
-            document.getElementById('historyModal').classList.add('hidden');
+        function applyTheme(themeName) {
+            currentTheme = themeName;
+            const theme = themes[themeName];
+            if (theme) {
+                document.querySelector('.gradient-bg').style.background = theme.gradient;
+                document.querySelector('meta[name="theme-color"]').setAttribute('content', theme.color);
+                localStorage.setItem('selectedTheme', themeName);
+            }
+            closeThemesModal();
         }
 
         // Add new subject from modal
@@ -202,466 +261,39 @@
             const name = document.getElementById('modalSubjectName').value.trim();
             const startTime = document.getElementById('modalSubjectStartTime').value;
             const endTime = document.getElementById('modalSubjectEndTime').value;
-            
-            if (!name) {
-                alert('कृपया विषय का नाम दर्ज करें');
-                return;
-            }
-            
-            if (!startTime || !endTime) {
-                alert('कृपया शुरुआत और अंत का समय दर्ज करें');
-                return;
-            }
-            
-            if (startTime >= endTime) {
-                alert('अंत का समय शुरुआत के समय से बाद होना चाहिए');
-                return;
-            }
-            
-            // Check for time overlap
-            const hasOverlap = subjects.some(subject => {
-                return timeRangesOverlap(startTime, endTime, subject.startTime, subject.endTime);
-            });
-            
-            if (hasOverlap) {
-                alert('इस समय में पहले से कोई विषय है। कृपया अलग समय चुनें।');
-                return;
-            }
-
-            const subject = {
-                id: Date.now(),
-                name: name,
-                startTime: startTime,
-                endTime: endTime,
-                tasks: [],
-                color: getRandomColor(),
-                expanded: false
-            };
-
+            if (!name) { alert('कृपया विषय का नाम दर्ज करें'); return; }
+            if (!startTime || !endTime) { alert('कृपया शुरुआत और अंत का समय दर्ज करें'); return; }
+            if (startTime >= endTime) { alert('अंत का समय शुरुआत के समय से बाद होना चाहिए'); return; }
+            const hasOverlap = subjects.some(subject => timeRangesOverlap(startTime, endTime, subject.startTime, subject.endTime));
+            if (hasOverlap) { alert('इस समय में पहले से कोई विषय है। कृपया अलग समय चुनें।'); return; }
+            const subject = { id: Date.now(), name: name, startTime: startTime, endTime: endTime, tasks: [], color: getRandomColor(), expanded: false };
             subjects.push(subject);
             closeAddSubjectModal();
             saveData();
             renderSubjects();
         }
-        
-        // Check if two time ranges overlap
-        function timeRangesOverlap(start1, end1, start2, end2) {
-            return start1 < end2 && start2 < end1;
-        }
-
-        // Legacy function for backward compatibility
-        function addSubject() {
-            addSubjectFromModal();
-        }
-
-        // Get random color for subject cards
-        function getRandomColor() {
-            const colors = [
-                'bg-blue-100 border-blue-300',
-                'bg-green-100 border-green-300',
-                'bg-purple-100 border-purple-300',
-                'bg-pink-100 border-pink-300',
-                'bg-yellow-100 border-yellow-300',
-                'bg-indigo-100 border-indigo-300',
-                'bg-red-100 border-red-300',
-                'bg-teal-100 border-teal-300'
-            ];
-            return colors[Math.floor(Math.random() * colors.length)];
-        }
-
-        // Add task to subject
-        function addTask(subjectId) {
-            const input = document.getElementById(`taskInput-${subjectId}`);
-            const taskText = input.value.trim();
-            
-            if (!taskText) return;
-
-            const subject = subjects.find(s => s.id === subjectId);
-            if (subject) {
-                subject.tasks.push({
-                    id: Date.now(),
-                    text: taskText,
-                    completed: false
-                });
-                input.value = '';
-                hideTaskInput(subjectId);
-                saveData();
-                renderSubjects();
-            }
-        }
-
-        // Toggle task completion
-        function toggleTask(subjectId, taskId) {
-            const subject = subjects.find(s => s.id === subjectId);
-            if (subject) {
-                const task = subject.tasks.find(t => t.id === taskId);
-                if (task) {
-                    task.completed = !task.completed;
-                    saveData();
-                    renderSubjects();
-                }
-            }
-        }
-        
-        // Toggle all tasks in a subject
-        function toggleAllTasks(subjectId) {
-            const subject = subjects.find(s => s.id === subjectId);
-            if (subject && subject.tasks.length > 0) {
-                const allCompleted = subject.tasks.every(task => task.completed);
-                subject.tasks.forEach(task => {
-                    task.completed = !allCompleted;
-                });
-                saveData();
-                renderSubjects();
-            }
-        }
-
-        // Delete task
-        function deleteTask(subjectId, taskId) {
-            const subject = subjects.find(s => s.id === subjectId);
-            if (subject) {
-                subject.tasks = subject.tasks.filter(t => t.id !== taskId);
-                saveData();
-                renderSubjects();
-            }
-        }
-
-        // Delete subject
-        function deleteSubject(subjectId) {
-            if (confirm('क्या आप इस विषय को हटाना चाहते हैं?')) {
-                subjects = subjects.filter(s => s.id !== subjectId);
-                saveData();
-                renderSubjects();
-            }
-        }
-
-        // Toggle subject expansion
-        function toggleSubject(subjectId) {
-            const subject = subjects.find(s => s.id === subjectId);
-            if (subject) {
-                // Close all other subjects
-                subjects.forEach(s => {
-                    if (s.id !== subjectId) {
-                        s.expanded = false;
-                    }
-                });
-                // Toggle current subject
-                subject.expanded = !subject.expanded;
-                saveData();
-                renderSubjects();
-            }
-        }
-        
-        // Show task input
-        function showTaskInput(subjectId) {
-            const container = document.getElementById(`taskInputContainer-${subjectId}`);
-            const input = document.getElementById(`taskInput-${subjectId}`);
-            if (container && input) {
-                container.classList.remove('hidden');
-                input.focus();
-            }
-        }
-        
-        // Hide task input
-        function hideTaskInput(subjectId) {
-            const container = document.getElementById(`taskInputContainer-${subjectId}`);
-            const input = document.getElementById(`taskInput-${subjectId}`);
-            if (container && input) {
-                container.classList.add('hidden');
-                input.value = '';
-            }
-        }
-
-        // Sort subjects by time
-        function sortSubjectsByTime() {
-            const now = new Date();
-            const currentTime = now.getHours() * 60 + now.getMinutes();
-            
-            subjects.sort((a, b) => {
-                const timeA = a.startTime ? parseInt(a.startTime.split(':')[0]) * 60 + parseInt(a.startTime.split(':')[1]) : 540;
-                const timeB = b.startTime ? parseInt(b.startTime.split(':')[0]) * 60 + parseInt(b.startTime.split(':')[1]) : 540;
-                
-                // Current or upcoming subjects first
-                const diffA = timeA >= currentTime ? timeA - currentTime : timeA + 1440 - currentTime;
-                const diffB = timeB >= currentTime ? timeB - currentTime : timeB + 1440 - currentTime;
-                
-                return diffA - diffB;
-            });
-            
-            renderSubjects();
-        }
-
-        // Render all subjects
-        function renderSubjects() {
-            const container = document.getElementById('subjectsContainer');
-            
-            if (subjects.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center py-12 text-gray-500">
-                        <div class="text-6xl mb-4">📚</div>
-                        <p class="text-lg">अभी तक कोई विषय नहीं जोड़ा गया है</p>
-                        <p class="text-sm">ऊपर से नया विषय जोड़ें</p>
-                    </div>
-                `;
-                return;
-            }
-
-            container.innerHTML = subjects.map(subject => `
-                <div class="bg-white rounded-xl card-shadow ${subject.color} border-2 overflow-hidden">
-                    <div class="p-4 cursor-pointer hover:bg-opacity-80 transition-all ${subject.tasks.length > 0 && subject.tasks.every(t => t.completed) ? 'bg-green-50 border-green-400' : ''}" onclick="toggleSubject(${subject.id})">
-                        <div class="flex justify-between items-center">
-                            <div class="flex items-center gap-3">
-                                <h3 class="text-lg font-semibold text-gray-800">${subject.name}</h3>
-                                <span class="bg-white px-2 py-1 rounded-full text-xs font-medium text-gray-600">
-                                    🕐 ${subject.startTime} - ${subject.endTime}
-                                </span>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                ${subject.tasks.length > 0 ? `
-                                    <button onclick="toggleAllTasks(${subject.id}); event.stopPropagation();" 
-                                            class="w-6 h-6 rounded border-2 flex items-center justify-center transition-all hover:scale-110 ${subject.tasks.every(t => t.completed) ? 'bg-green-500 border-green-500 text-white' : 'border-gray-300 hover:border-green-400'}">
-                                        ${subject.tasks.every(t => t.completed) ? '✓' : ''}
-                                    </button>
-                                ` : ''}
-                                <span class="transform transition-transform ${subject.expanded ? 'rotate-180' : ''} text-gray-400">▼</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="${subject.expanded ? 'block' : 'hidden'} border-t border-gray-200">
-                        <div class="p-4">
-                            <div class="mb-4 no-print">
-                                <button onclick="showTaskInput(${subject.id}); event.stopPropagation();" 
-                                        class="w-full bg-blue-50 hover:bg-blue-100 text-blue-600 py-2 px-4 rounded-lg transition-colors text-sm font-medium border border-blue-200">
-                                    ➕ नया कार्य जोड़ें
-                                </button>
-                            </div>
-                            
-                            <div id="taskInputContainer-${subject.id}" class="hidden mb-4 no-print">
-                                <div class="flex gap-2">
-                                    <input type="text" id="taskInput-${subject.id}" 
-                                           placeholder="कार्य का नाम..." 
-                                           class="flex-1 px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                                           onkeypress="if(event.key==='Enter') addTask(${subject.id})"
-                                           onclick="event.stopPropagation()">
-                                    <button onclick="addTask(${subject.id}); event.stopPropagation();" 
-                                            class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg transition-colors text-sm">
-                                        ✓
-                                    </button>
-                                    <button onclick="hideTaskInput(${subject.id}); event.stopPropagation();" 
-                                            class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-3 py-2 rounded-lg transition-colors text-sm">
-                                        ✕
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <div class="space-y-2">
-                                ${subject.tasks.map(task => `
-                                    <div class="task-item flex items-center gap-3 p-2 bg-gray-50 rounded-lg border ${task.completed ? 'opacity-60' : ''}" onclick="event.stopPropagation()">
-                                        <input type="checkbox" ${task.completed ? 'checked' : ''} 
-                                               onchange="toggleTask(${subject.id}, ${task.id})"
-                                               class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
-                                        <span class="flex-1 text-sm ${task.completed ? 'line-through text-gray-500' : 'text-gray-800'}">${task.text}</span>
-                                        <button onclick="deleteTask(${subject.id}, ${task.id})" 
-                                                class="text-red-500 hover:text-red-700 text-xs no-print">
-                                            🗑️
-                                        </button>
-                                    </div>
-                                `).join('')}
-                                
-                                ${subject.tasks.length === 0 ? `
-                                    <div class="text-center py-3 text-gray-400">
-                                        <p class="text-sm">अभी तक कोई कार्य नहीं जोड़ा गया</p>
-                                    </div>
-                                ` : ''}
-                            </div>
-                            
-                            <div class="mt-4 pt-3 border-t border-gray-200 no-print">
-                                <button onclick="deleteSubject(${subject.id}); event.stopPropagation();" 
-                                        class="w-full bg-red-50 hover:bg-red-100 text-red-600 py-2 px-4 rounded-lg transition-colors text-sm font-medium border border-red-200">
-                                    🗑️ विषय हटाएं
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // Save data to localStorage
-        function saveData() {
-            const today = new Date().toDateString();
-            
-            // Save current subjects
-            localStorage.setItem('dailySubjects', JSON.stringify(subjects));
-            
-            // Save to history
-            if (!history[today]) {
-                history[today] = [];
-            }
-            history[today] = JSON.parse(JSON.stringify(subjects));
-            localStorage.setItem('subjectsHistory', JSON.stringify(history));
-            
-            loadHistoryDates();
-        }
-
-        // Load data from localStorage
-        function loadData() {
-            const savedSubjects = localStorage.getItem('dailySubjects');
-            const savedHistory = localStorage.getItem('subjectsHistory');
-            
-            if (savedSubjects) {
-                subjects = JSON.parse(savedSubjects);
-            }
-            
-            if (savedHistory) {
-                history = JSON.parse(savedHistory);
-            }
-        }
-
-        // Load history dates in modal
-        function loadHistoryDatesInModal() {
-            const select = document.getElementById('modalHistoryDate');
-            // Clear existing options except first one
-            while (select.children.length > 1) {
-                select.removeChild(select.lastChild);
-            }
-            
-            Object.keys(history).forEach(date => {
-                const option = document.createElement('option');
-                option.value = date;
-                option.textContent = new Date(date).toLocaleDateString('hi-IN');
-                select.appendChild(option);
-            });
-        }
-
-        // Show history preview in modal
-        function showHistoryPreview() {
-            const selectedDate = document.getElementById('modalHistoryDate').value;
-            const dataToShow = selectedDate ? (history[selectedDate] || []) : subjects;
-            const preview = document.getElementById('historyPreview');
-            
-            if (dataToShow.length === 0) {
-                preview.innerHTML = '<p class="text-gray-500 text-center">इस दिन कोई डेटा नहीं मिला</p>';
-                return;
-            }
-            
-            const totalTasks = dataToShow.reduce((sum, subject) => sum + subject.tasks.length, 0);
-            const completedTasks = dataToShow.reduce((sum, subject) => 
-                sum + subject.tasks.filter(task => task.completed).length, 0);
-            
-            preview.innerHTML = `
-                <div class="space-y-2">
-                    <div class="flex justify-between text-sm">
-                        <span class="font-medium">कुल विषय:</span>
-                        <span>${dataToShow.length}</span>
-                    </div>
-                    <div class="flex justify-between text-sm">
-                        <span class="font-medium">कुल कार्य:</span>
-                        <span>${totalTasks}</span>
-                    </div>
-                    <div class="flex justify-between text-sm">
-                        <span class="font-medium">पूर्ण कार्य:</span>
-                        <span class="text-green-600">${completedTasks}</span>
-                    </div>
-                    <div class="w-full bg-gray-200 rounded-full h-2 mt-3">
-                        <div class="bg-green-500 h-2 rounded-full" 
-                             style="width: ${totalTasks ? (completedTasks / totalTasks) * 100 : 0}%"></div>
-                    </div>
-                    <div class="text-xs text-gray-500 mt-2">
-                        ${dataToShow.map(s => s.name).join(', ')}
-                    </div>
-                </div>
-            `;
-        }
-
-        // Load history from modal
-        function loadHistoryFromModal() {
-            showHistoryPreview();
-        }
-
-        // Load selected history and close modal
-        function loadSelectedHistory() {
-            const selectedDate = document.getElementById('modalHistoryDate').value;
-            
-            if (!selectedDate) {
-                // Load today's data
-                loadData();
-                currentHistoryDate = null;
-                renderSubjects();
-            } else {
-                // Load historical data
-                currentHistoryDate = selectedDate;
-                subjects = history[selectedDate] || [];
-                renderSubjects();
-            }
-            
-            closeHistoryModal();
-        }
-
-        // Print history from modal
-        function printHistoryFromModal() {
-            const selectedDate = document.getElementById('modalHistoryDate').value;
-            const dateToShow = selectedDate || new Date().toDateString();
-            const dataToShow = selectedDate ? (history[selectedDate] || []) : subjects;
-            
-            document.getElementById('printDate').textContent = new Date(dateToShow).toLocaleDateString('hi-IN', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
-            
-            // Temporarily show print data
-            const originalSubjects = [...subjects];
-            subjects = dataToShow;
-            renderSubjects();
-            
-            // Close modal and print
-            closeHistoryModal();
-            window.print();
-            
-            // Restore original data
-            subjects = originalSubjects;
-            renderSubjects();
-        }
-
-        // Legacy functions for backward compatibility
-        function loadHistoryDates() {
-            loadHistoryDatesInModal();
-        }
-
-        function loadHistoryDate() {
-            loadSelectedHistory();
-        }
-
-        // Print history
-        function printHistory() {
-            const selectedDate = document.getElementById('historyDate').value;
-            const dateToShow = selectedDate || new Date().toDateString();
-            const dataToShow = selectedDate ? (history[selectedDate] || []) : subjects;
-            
-            document.getElementById('printDate').textContent = new Date(dateToShow).toLocaleDateString('hi-IN', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
-            
-            // Temporarily show print data
-            const originalSubjects = [...subjects];
-            subjects = dataToShow;
-            renderSubjects();
-            
-            // Print
-            window.print();
-            
-            // Restore original data
-            subjects = originalSubjects;
-            renderSubjects();
-        }
-
-        // Initialize app when page loads
+        function timeRangesOverlap(start1, end1, start2, end2) { return start1 < end2 && start2 < end1; }
+        function addSubject() { addSubjectFromModal(); }
+        function getRandomColor() { const colors = ['bg-blue-100 border-blue-300', 'bg-green-100 border-green-300', 'bg-purple-100 border-purple-300', 'bg-pink-100 border-pink-300', 'bg-yellow-100 border-yellow-300', 'bg-indigo-100 border-indigo-300', 'bg-red-100 border-red-300', 'bg-teal-100 border-teal-300']; return colors[Math.floor(Math.random() * colors.length)]; }
+        function addTask(subjectId) { const input = document.getElementById(`taskInput-${subjectId}`); const taskText = input.value.trim(); if (!taskText) return; const subject = subjects.find(s => s.id === subjectId); if (subject) { subject.tasks.push({ id: Date.now(), text: taskText, completed: false }); input.value = ''; hideTaskInput(subjectId); saveData(); renderSubjects(); } }
+        function toggleTask(subjectId, taskId) { const subject = subjects.find(s => s.id === subjectId); if (subject) { const task = subject.tasks.find(t => t.id === taskId); if (task) { task.completed = !task.completed; saveData(); renderSubjects(); } } }
+        function isSubjectLive(subject) { const now = new Date(); const currentTime = now.getHours() * 60 + now.getMinutes(); const startTime = subject.startTime ? parseInt(subject.startTime.split(':')[0]) * 60 + parseInt(subject.startTime.split(':')[1]) : 0; const endTime = subject.endTime ? parseInt(subject.endTime.split(':')[0]) * 60 + parseInt(subject.endTime.split(':')[1]) : 0; return currentTime >= startTime && currentTime <= endTime; }
+        function toggleAllTasks(subjectId) { const subject = subjects.find(s => s.id === subjectId); if (subject && subject.tasks.length > 0) { const allCompleted = subject.tasks.every(task => task.completed); subject.tasks.forEach(task => { task.completed = !allCompleted; }); saveData(); renderSubjects(); } }
+        function deleteTask(subjectId, taskId) { const subject = subjects.find(s => s.id === subjectId); if (subject) { subject.tasks = subject.tasks.filter(t => t.id !== taskId); saveData(); renderSubjects(); } }
+        function deleteSubject(subjectId) { if (confirm('क्या आप इस विषय को हटाना चाहते हैं?')) { subjects = subjects.filter(s => s.id !== subjectId); saveData(); renderSubjects(); } }
+        function toggleSubject(subjectId) { const subject = subjects.find(s => s.id === subjectId); if (subject) { subjects.forEach(s => { if (s.id !== subjectId) { s.expanded = false; } }); subject.expanded = !subject.expanded; saveData(); renderSubjects(); } }
+        function showTaskInput(subjectId) { const container = document.getElementById(`taskInputContainer-${subjectId}`); const input = document.getElementById(`taskInput-${subjectId}`); if (container && input) { container.classList.remove('hidden'); input.focus(); } }
+        function hideTaskInput(subjectId) { const container = document.getElementById(`taskInputContainer-${subjectId}`); const input = document.getElementById(`taskInput-${subjectId}`); if (container && input) { container.classList.add('hidden'); input.value = ''; } }
+        function sortSubjectsByTime() { const now = new Date(); const currentTime = now.getHours() * 60 + now.getMinutes(); subjects.sort((a, b) => { const timeA = a.startTime ? parseInt(a.startTime.split(':')[0]) * 60 + parseInt(a.startTime.split(':')[1]) : 0; const timeB = b.startTime ? parseInt(b.startTime.split(':')[0]) * 60 + parseInt(b.startTime.split(':')[1]) : 0; const endTimeA = a.endTime ? parseInt(a.endTime.split(':')[0]) * 60 + parseInt(a.endTime.split(':')[1]) : 0; const endTimeB = b.endTime ? parseInt(b.endTime.split(':')[0]) * 60 + parseInt(b.endTime.split(':')[1]) : 0; const isLiveA = currentTime >= timeA && currentTime <= endTimeA; const isLiveB = currentTime >= timeB && currentTime <= endTimeB; if (isLiveA && !isLiveB) return -1; if (!isLiveA && isLiveB) return 1; if (isLiveA && isLiveB) { return timeA - timeB; } const diffA = timeA >= currentTime ? timeA - currentTime : timeA + 1440 - currentTime; const diffB = timeB >= currentTime ? timeB - currentTime : timeB + 1440 - currentTime; return diffA - diffB; }); renderSubjects(); }
+        function renderSubjects() { const container = document.getElementById('subjectsContainer'); if (subjects.length === 0) { container.innerHTML = `<div class="text-center py-12 text-gray-500"><div class="text-6xl mb-4">📚</div><p class="text-lg">अभी तक कोई विषय नहीं जोड़ा गया है</p><p class="text-sm">ऊपर से नया विषय जोड़ें</p></div>`; return; } container.innerHTML = subjects.map(subject => `<div class="bg-white rounded-xl card-shadow ${subject.color} border-2 overflow-hidden ${isSubjectLive(subject) ? 'border-green-500 shadow-lg shadow-green-200' : 'border-transparent'}"><div class="p-4 cursor-pointer hover:bg-opacity-80 transition-all ${subject.tasks.length > 0 && subject.tasks.every(t => t.completed) ? 'bg-green-50' : ''}" onclick="toggleSubject(${subject.id})"><div class="flex justify-between items-center"><div class="flex items-center gap-3 flex-wrap"><h3 class="text-lg font-semibold text-gray-800">${subject.name}</h3><span class="bg-white px-2 py-1 rounded-full text-xs font-medium text-gray-600">🕐 ${subject.startTime} - ${subject.endTime}</span>${isSubjectLive(subject) ? '<span class="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-bold animate-pulse">🔴 LIVE</span>' : ''}</div><div class="flex items-center gap-2">${subject.tasks.length > 0 ? `<button onclick="toggleAllTasks(${subject.id}); event.stopPropagation();" class="w-6 h-6 rounded border-2 flex items-center justify-center transition-all hover:scale-110 ${subject.tasks.every(t => t.completed) ? 'bg-green-500 border-green-500 text-white' : 'border-gray-300 hover:border-green-400'}">${subject.tasks.every(t => t.completed) ? '✓' : ''}</button>` : ''}<span class="transform transition-transform ${subject.expanded ? 'rotate-180' : ''} text-gray-400">▼</span></div></div></div><div class="${subject.expanded ? 'block' : 'hidden'} border-t border-gray-200"><div class="p-4"><div class="flex justify-end gap-2 mb-4 no-print"><button onclick="showTaskInput(${subject.id}); event.stopPropagation();" class="bg-blue-100 hover:bg-blue-200 text-blue-600 p-2 rounded-full transition-colors text-sm" title="नया कार्य जोड़ें">➕</button><button onclick="deleteSubject(${subject.id}); event.stopPropagation();" class="bg-red-100 hover:bg-red-200 text-red-600 p-2 rounded-full transition-colors text-sm" title="विषय हटाएं">🗑️</button></div><div id="taskInputContainer-${subject.id}" class="hidden mb-4 no-print"><div class="flex gap-2"><input type="text" id="taskInput-${subject.id}" placeholder="कार्य का नाम..." class="flex-1 px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm" onkeypress="if(event.key==='Enter') addTask(${subject.id})" onclick="event.stopPropagation()"><button onclick="addTask(${subject.id}); event.stopPropagation();" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-sm">✓</button><button onclick="hideTaskInput(${subject.id}); event.stopPropagation();" class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-3 py-2 rounded-lg text-sm">✕</button></div></div><div class="space-y-2">${subject.tasks.map(task => `<div class="task-item flex items-center gap-3 p-2 bg-gray-50 rounded-lg border ${task.completed ? 'opacity-60' : ''}" onclick="event.stopPropagation()"><input type="checkbox" ${task.completed ? 'checked' : ''} onchange="toggleTask(${subject.id}, ${task.id})" class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"><span class="flex-1 text-sm ${task.completed ? 'line-through text-gray-500' : 'text-gray-800'}">${task.text}</span><button onclick="deleteTask(${subject.id}, ${task.id})" class="text-red-500 hover:text-red-700 text-xs no-print">🗑️</button></div>`).join('')}${subject.tasks.length === 0 ? `<div class="text-center py-3 text-gray-400"><p class="text-sm">अभी तक कोई कार्य नहीं जोड़ा गया</p></div>` : ''}</div></div></div></div>`).join(''); }
+        function saveData() { const today = new Date().toDateString(); localStorage.setItem('dailySubjects', JSON.stringify(subjects)); if (!history[today]) { history[today] = []; } history[today] = JSON.parse(JSON.stringify(subjects)); localStorage.setItem('subjectsHistory', JSON.stringify(history)); loadHistoryDates(); }
+        function loadData() { const savedSubjects = localStorage.getItem('dailySubjects'); const savedHistory = localStorage.getItem('subjectsHistory'); if (savedSubjects) { subjects = JSON.parse(savedSubjects); } if (savedHistory) { history = JSON.parse(savedHistory); } }
+        function loadHistoryDatesInModal() { const select = document.getElementById('modalHistoryDate'); while (select.children.length > 1) { select.removeChild(select.lastChild); } Object.keys(history).forEach(date => { const option = document.createElement('option'); option.value = date; option.textContent = new Date(date).toLocaleDateString('hi-IN'); select.appendChild(option); }); }
+        function showHistoryPreview() { const selectedDate = document.getElementById('modalHistoryDate').value; const dataToShow = selectedDate ? (history[selectedDate] || []) : subjects; const preview = document.getElementById('historyPreview'); if (dataToShow.length === 0) { preview.innerHTML = '<p class="text-gray-500 text-center">इस दिन कोई डेटा नहीं मिला</p>'; return; } const totalTasks = dataToShow.reduce((sum, subject) => sum + subject.tasks.length, 0); const completedTasks = dataToShow.reduce((sum, subject) => sum + subject.tasks.filter(task => task.completed).length, 0); preview.innerHTML = `<div class="space-y-2"><div class="flex justify-between text-sm"><span class="font-medium">कुल विषय:</span><span>${dataToShow.length}</span></div><div class="flex justify-between text-sm"><span class="font-medium">कुल कार्य:</span><span>${totalTasks}</span></div><div class="flex justify-between text-sm"><span class="font-medium">पूर्ण कार्य:</span><span class="text-green-600">${completedTasks}</span></div><div class="w-full bg-gray-200 rounded-full h-2 mt-3"><div class="bg-green-500 h-2 rounded-full" style="width: ${totalTasks ? (completedTasks / totalTasks) * 100 : 0}%"></div></div><div class="text-xs text-gray-500 mt-2">${dataToShow.map(s => s.name).join(', ')}</div></div>`; }
+        function loadHistoryFromModal() { showHistoryPreview(); }
+        function loadSelectedHistory() { const selectedDate = document.getElementById('modalHistoryDate').value; if (!selectedDate) { loadData(); currentHistoryDate = null; } else { currentHistoryDate = selectedDate; subjects = history[selectedDate] || []; } renderSubjects(); closeHistoryModal(); }
+        function printHistoryFromModal() { const selectedDate = document.getElementById('modalHistoryDate').value; const dateToShow = selectedDate || new Date().toDateString(); const dataToShow = selectedDate ? (history[selectedDate] || []) : subjects; document.getElementById('printDate').textContent = new Date(dateToShow).toLocaleDateString('hi-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }); const originalSubjects = [...subjects]; subjects = dataToShow; renderSubjects(); closeHistoryModal(); window.print(); subjects = originalSubjects; renderSubjects(); }
+        function loadHistoryDates() { loadHistoryDatesInModal(); }
         init();
     </script>
     

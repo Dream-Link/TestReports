@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta name="theme-color" content="#667eea"/>
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    <link rel="manifest" href="manifest.json">
+    
     <title>Daily Subjects Tracker</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -27,7 +32,6 @@
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
-    <!-- Header -->
     <div class="gradient-bg text-white p-3 no-print">
         <div class="max-w-4xl mx-auto flex justify-between items-center">
             <div>
@@ -43,24 +47,16 @@
                         class="bg-white bg-opacity-20 hover:bg-opacity-30 p-2 rounded-full transition-all duration-300 hover:scale-110">
                     <span class="text-sm">📅</span>
                 </button>
-                <button onclick="openThemesModal()" 
-                        class="bg-white bg-opacity-20 hover:bg-opacity-30 p-2 rounded-full transition-all duration-300 hover:scale-110">
-                    <span class="text-sm">🎨</span>
-                </button>
             </div>
         </div>
     </div>
 
-    <!-- Main Container -->
     <div class="max-w-4xl mx-auto p-6">
 
 
-        <!-- Subjects Container -->
         <div id="subjectsContainer" class="space-y-4">
-            <!-- Subjects will be dynamically added here -->
-        </div>
+            </div>
 
-        <!-- Print Header (Hidden by default) -->
         <div class="print-only">
             <div class="text-center mb-8">
                 <h1 class="text-3xl font-bold text-gray-800 mb-2">📚 Daily Subjects Report</h1>
@@ -69,7 +65,6 @@
         </div>
     </div>
 
-    <!-- Add Subject Modal -->
     <div id="addSubjectModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 no-print">
         <div class="flex items-center justify-center min-h-screen p-4">
             <div class="bg-white rounded-xl max-w-md w-full p-6 transform transition-all">
@@ -116,70 +111,6 @@
         </div>
     </div>
 
-    <!-- Themes Modal -->
-    <div id="themesModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 no-print">
-        <div class="flex items-center justify-center min-h-screen p-4">
-            <div class="bg-white rounded-xl max-w-2xl w-full p-6 transform transition-all max-h-96 overflow-y-auto">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-bold text-gray-800">🎨 Themes</h2>
-                    <button onclick="closeThemesModal()" class="text-gray-500 hover:text-gray-700 text-2xl">✕</button>
-                </div>
-                
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    <div onclick="applyTheme('default')" class="cursor-pointer p-4 rounded-lg border-2 hover:border-blue-500 transition-all">
-                        <div class="h-16 bg-gradient-to-r from-blue-400 to-purple-500 rounded mb-2"></div>
-                        <p class="text-sm font-medium text-center">Default Blue</p>
-                    </div>
-                    <div onclick="applyTheme('sunset')" class="cursor-pointer p-4 rounded-lg border-2 hover:border-blue-500 transition-all">
-                        <div class="h-16 bg-gradient-to-r from-orange-400 to-red-500 rounded mb-2"></div>
-                        <p class="text-sm font-medium text-center">Sunset Orange</p>
-                    </div>
-                    <div onclick="applyTheme('forest')" class="cursor-pointer p-4 rounded-lg border-2 hover:border-blue-500 transition-all">
-                        <div class="h-16 bg-gradient-to-r from-green-400 to-teal-500 rounded mb-2"></div>
-                        <p class="text-sm font-medium text-center">Forest Green</p>
-                    </div>
-                    <div onclick="applyTheme('ocean')" class="cursor-pointer p-4 rounded-lg border-2 hover:border-blue-500 transition-all">
-                        <div class="h-16 bg-gradient-to-r from-cyan-400 to-blue-600 rounded mb-2"></div>
-                        <p class="text-sm font-medium text-center">Ocean Blue</p>
-                    </div>
-                    <div onclick="applyTheme('lavender')" class="cursor-pointer p-4 rounded-lg border-2 hover:border-blue-500 transition-all">
-                        <div class="h-16 bg-gradient-to-r from-purple-400 to-pink-500 rounded mb-2"></div>
-                        <p class="text-sm font-medium text-center">Lavender Pink</p>
-                    </div>
-                    <div onclick="applyTheme('golden')" class="cursor-pointer p-4 rounded-lg border-2 hover:border-blue-500 transition-all">
-                        <div class="h-16 bg-gradient-to-r from-yellow-400 to-orange-500 rounded mb-2"></div>
-                        <p class="text-sm font-medium text-center">Golden Hour</p>
-                    </div>
-                    <div onclick="applyTheme('midnight')" class="cursor-pointer p-4 rounded-lg border-2 hover:border-blue-500 transition-all">
-                        <div class="h-16 bg-gradient-to-r from-gray-700 to-gray-900 rounded mb-2"></div>
-                        <p class="text-sm font-medium text-center">Midnight Dark</p>
-                    </div>
-                    <div onclick="applyTheme('cherry')" class="cursor-pointer p-4 rounded-lg border-2 hover:border-blue-500 transition-all">
-                        <div class="h-16 bg-gradient-to-r from-pink-400 to-red-500 rounded mb-2"></div>
-                        <p class="text-sm font-medium text-center">Cherry Blossom</p>
-                    </div>
-                    <div onclick="applyTheme('mint')" class="cursor-pointer p-4 rounded-lg border-2 hover:border-blue-500 transition-all">
-                        <div class="h-16 bg-gradient-to-r from-green-300 to-cyan-400 rounded mb-2"></div>
-                        <p class="text-sm font-medium text-center">Fresh Mint</p>
-                    </div>
-                    <div onclick="applyTheme('royal')" class="cursor-pointer p-4 rounded-lg border-2 hover:border-blue-500 transition-all">
-                        <div class="h-16 bg-gradient-to-r from-indigo-500 to-purple-600 rounded mb-2"></div>
-                        <p class="text-sm font-medium text-center">Royal Purple</p>
-                    </div>
-                    <div onclick="applyTheme('autumn')" class="cursor-pointer p-4 rounded-lg border-2 hover:border-blue-500 transition-all">
-                        <div class="h-16 bg-gradient-to-r from-amber-400 to-red-600 rounded mb-2"></div>
-                        <p class="text-sm font-medium text-center">Autumn Leaves</p>
-                    </div>
-                    <div onclick="applyTheme('arctic')" class="cursor-pointer p-4 rounded-lg border-2 hover:border-blue-500 transition-all">
-                        <div class="h-16 bg-gradient-to-r from-blue-200 to-cyan-300 rounded mb-2"></div>
-                        <p class="text-sm font-medium text-center">Arctic Ice</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- History Modal -->
     <div id="historyModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 no-print">
         <div class="flex items-center justify-center min-h-screen p-4">
             <div class="bg-white rounded-xl max-w-lg w-full p-6 transform transition-all max-h-96 overflow-y-auto">
@@ -217,28 +148,18 @@
     </div>
 
     <script>
+        // आपका सारा मौजूदा जावास्क्रिप्ट कोड यहाँ रहेगा...
         let subjects = [];
         let history = {};
         let currentHistoryDate = null;
-        let currentTheme = 'default';
 
         // Initialize app
         function init() {
             loadData();
-            loadSavedTheme();
             updateCurrentDate();
             loadHistoryDates();
             renderSubjects();
-            setInterval(sortSubjectsByTime, 30000); // Sort every 30 seconds for live updates
-            sortSubjectsByTime(); // Initial sort
-        }
-
-        // Load saved theme
-        function loadSavedTheme() {
-            const savedTheme = localStorage.getItem('selectedTheme');
-            if (savedTheme && themes[savedTheme]) {
-                applyTheme(savedTheme);
-            }
+            setInterval(sortSubjectsByTime, 60000); // Sort every minute
         }
 
         // Update current date display
@@ -274,40 +195,6 @@
 
         function closeHistoryModal() {
             document.getElementById('historyModal').classList.add('hidden');
-        }
-
-        function openThemesModal() {
-            document.getElementById('themesModal').classList.remove('hidden');
-        }
-
-        function closeThemesModal() {
-            document.getElementById('themesModal').classList.add('hidden');
-        }
-
-        // Theme configurations
-        const themes = {
-            default: { gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', name: 'Default Blue' },
-            sunset: { gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', name: 'Sunset Orange' },
-            forest: { gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', name: 'Forest Green' },
-            ocean: { gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)', name: 'Ocean Blue' },
-            lavender: { gradient: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)', name: 'Lavender Pink' },
-            golden: { gradient: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)', name: 'Golden Hour' },
-            midnight: { gradient: 'linear-gradient(135deg, #2c3e50 0%, #34495e 100%)', name: 'Midnight Dark' },
-            cherry: { gradient: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)', name: 'Cherry Blossom' },
-            mint: { gradient: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)', name: 'Fresh Mint' },
-            royal: { gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', name: 'Royal Purple' },
-            autumn: { gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', name: 'Autumn Leaves' },
-            arctic: { gradient: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)', name: 'Arctic Ice' }
-        };
-
-        function applyTheme(themeName) {
-            currentTheme = themeName;
-            const theme = themes[themeName];
-            if (theme) {
-                document.querySelector('.gradient-bg').style.background = theme.gradient;
-                localStorage.setItem('selectedTheme', themeName);
-            }
-            closeThemesModal();
         }
 
         // Add new subject from modal
@@ -416,16 +303,6 @@
             }
         }
         
-        // Check if subject is currently live
-        function isSubjectLive(subject) {
-            const now = new Date();
-            const currentTime = now.getHours() * 60 + now.getMinutes();
-            const startTime = subject.startTime ? parseInt(subject.startTime.split(':')[0]) * 60 + parseInt(subject.startTime.split(':')[1]) : 540;
-            const endTime = subject.endTime ? parseInt(subject.endTime.split(':')[0]) * 60 + parseInt(subject.endTime.split(':')[1]) : 540;
-            
-            return currentTime >= startTime && currentTime <= endTime;
-        }
-
         // Toggle all tasks in a subject
         function toggleAllTasks(subjectId) {
             const subject = subjects.find(s => s.id === subjectId);
@@ -495,7 +372,7 @@
             }
         }
 
-        // Sort subjects by time - Live time based sorting
+        // Sort subjects by time
         function sortSubjectsByTime() {
             const now = new Date();
             const currentTime = now.getHours() * 60 + now.getMinutes();
@@ -503,24 +380,8 @@
             subjects.sort((a, b) => {
                 const timeA = a.startTime ? parseInt(a.startTime.split(':')[0]) * 60 + parseInt(a.startTime.split(':')[1]) : 540;
                 const timeB = b.startTime ? parseInt(b.startTime.split(':')[0]) * 60 + parseInt(b.startTime.split(':')[1]) : 540;
-                const endTimeA = a.endTime ? parseInt(a.endTime.split(':')[0]) * 60 + parseInt(a.endTime.split(':')[1]) : 540;
-                const endTimeB = b.endTime ? parseInt(b.endTime.split(':')[0]) * 60 + parseInt(b.endTime.split(':')[1]) : 540;
                 
-                // Check if subject is currently live (current time is between start and end)
-                const isLiveA = currentTime >= timeA && currentTime <= endTimeA;
-                const isLiveB = currentTime >= timeB && currentTime <= endTimeB;
-                
-                // Live subjects always come first
-                if (isLiveA && !isLiveB) return -1;
-                if (!isLiveA && isLiveB) return 1;
-                
-                // If both are live or both are not live, sort by proximity to current time
-                if (isLiveA && isLiveB) {
-                    // Both live, sort by start time
-                    return timeA - timeB;
-                }
-                
-                // For non-live subjects, upcoming subjects come before past subjects
+                // Current or upcoming subjects first
                 const diffA = timeA >= currentTime ? timeA - currentTime : timeA + 1440 - currentTime;
                 const diffB = timeB >= currentTime ? timeB - currentTime : timeB + 1440 - currentTime;
                 
@@ -546,8 +407,7 @@
             }
 
             container.innerHTML = subjects.map(subject => `
-                <div class="bg-white rounded-xl card-shadow ${subject.color} border-2 overflow-hidden ${isSubjectLive(subject) ? 'border-green-500 shadow-green-200' : ''}">
-                    <!-- Compact Header (Always Visible) -->
+                <div class="bg-white rounded-xl card-shadow ${subject.color} border-2 overflow-hidden">
                     <div class="p-4 cursor-pointer hover:bg-opacity-80 transition-all ${subject.tasks.length > 0 && subject.tasks.every(t => t.completed) ? 'bg-green-50 border-green-400' : ''}" onclick="toggleSubject(${subject.id})">
                         <div class="flex justify-between items-center">
                             <div class="flex items-center gap-3">
@@ -555,7 +415,6 @@
                                 <span class="bg-white px-2 py-1 rounded-full text-xs font-medium text-gray-600">
                                     🕐 ${subject.startTime} - ${subject.endTime}
                                 </span>
-                                ${isSubjectLive(subject) ? '<span class="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-bold animate-pulse">🔴 LIVE</span>' : ''}
                             </div>
                             <div class="flex items-center gap-2">
                                 ${subject.tasks.length > 0 ? `
@@ -569,22 +428,15 @@
                         </div>
                     </div>
                     
-                    <!-- Expandable Details -->
                     <div class="${subject.expanded ? 'block' : 'hidden'} border-t border-gray-200">
                         <div class="p-4">
-                            <!-- Small Action Icons -->
-                            <div class="flex justify-end gap-2 mb-4 no-print">
+                            <div class="mb-4 no-print">
                                 <button onclick="showTaskInput(${subject.id}); event.stopPropagation();" 
-                                        class="bg-blue-100 hover:bg-blue-200 text-blue-600 p-2 rounded-full transition-colors text-sm" title="नया कार्य जोड़ें">
-                                    ➕
-                                </button>
-                                <button onclick="deleteSubject(${subject.id}); event.stopPropagation();" 
-                                        class="bg-red-100 hover:bg-red-200 text-red-600 p-2 rounded-full transition-colors text-sm" title="विषय हटाएं">
-                                    🗑️
+                                        class="w-full bg-blue-50 hover:bg-blue-100 text-blue-600 py-2 px-4 rounded-lg transition-colors text-sm font-medium border border-blue-200">
+                                    ➕ नया कार्य जोड़ें
                                 </button>
                             </div>
                             
-                            <!-- Task Input (Hidden by default) -->
                             <div id="taskInputContainer-${subject.id}" class="hidden mb-4 no-print">
                                 <div class="flex gap-2">
                                     <input type="text" id="taskInput-${subject.id}" 
@@ -603,7 +455,6 @@
                                 </div>
                             </div>
                             
-                            <!-- Tasks List -->
                             <div class="space-y-2">
                                 ${subject.tasks.map(task => `
                                     <div class="task-item flex items-center gap-3 p-2 bg-gray-50 rounded-lg border ${task.completed ? 'opacity-60' : ''}" onclick="event.stopPropagation()">
@@ -624,7 +475,13 @@
                                     </div>
                                 ` : ''}
                             </div>
-
+                            
+                            <div class="mt-4 pt-3 border-t border-gray-200 no-print">
+                                <button onclick="deleteSubject(${subject.id}); event.stopPropagation();" 
+                                        class="w-full bg-red-50 hover:bg-red-100 text-red-600 py-2 px-4 rounded-lg transition-colors text-sm font-medium border border-red-200">
+                                    🗑️ विषय हटाएं
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -807,5 +664,19 @@
         // Initialize app when page loads
         init();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'977aff72017799af',t:'MTc1NjYyNzI2NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+    
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+    </script>
+</body>
 </html>

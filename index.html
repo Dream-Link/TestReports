@@ -1,333 +1,783 @@
 <!DOCTYPE html>
-<html lang="hi" data-theme="default-dark">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auto-Save Test Tracker Pro</title>
-    
-    <!-- PWA Manifest Link -->
-    <link rel="manifest" href="manifest.json">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    
+    <title>Daily Subjects Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* --- CSS STYLES --- */
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-
-        /* --- THEME DEFINITIONS (Improved Readability) --- */
-        :root, :root[data-theme="default-dark"] { --bg-image: linear-gradient(45deg, #282a36, #1e1f24); --card-bg: rgba(40, 42, 54, 0.85); --primary-text: #ffffff; --secondary-text: #b0b0b0; --accent-color: #8be9fd; --border-color: rgba(255, 255, 255, 0.15); --shadow-color: rgba(0, 0, 0, 0.4); --success-color: #50fa7b; }
-        :root[data-theme="light"] { --bg-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%); --card-bg: rgba(255, 255, 255, 0.9); --primary-text: #1c1e21; --secondary-text: #606770; --accent-color: #1877f2; --border-color: rgba(0, 0, 0, 0.1); --shadow-color: rgba(0, 0, 0, 0.1); --success-color: #1c9c51; }
-        :root[data-theme="ocean"] { --bg-image: linear-gradient(to top, #0250c5 0%, #04befe 100%); --card-bg: rgba(2, 49, 122, 0.8); --primary-text: #fff; --secondary-text: #e0f7fa; --accent-color: #ffc400; }
-        :root[data-theme="forest"] { --bg-image: url('https://images.pexels.com/photos/957024/forest-trees-perspective-bright-957024.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'); --card-bg: rgba(10, 25, 10, 0.9); --primary-text: #f2e8cf; --secondary-text: #d4c2a4; --accent-color: #6a994e; }
-        :root[data-theme="sunset"] { --bg-image: linear-gradient(to right, #ff7e5f, #feb47b); --card-bg: rgba(0, 0, 0, 0.4); --primary-text: #ffffff; --secondary-text: #f5f5f5; --accent-color: #ffffff; }
-        :root[data-theme="rose-gold"] { --bg-image: linear-gradient(to right, #b79891, #94716b); --card-bg: rgba(183, 152, 145, 0.8); --primary-text: #fff; --secondary-text: #e0e0e0; --accent-color: #fde2e4; }
-        :root[data-theme="cyberpunk"] { --bg-image: linear-gradient(45deg, #000428, #004e92, #f0f); --card-bg: rgba(10, 10, 20, 0.8); --primary-text: #fff; --accent-color: #00f0ff; --secondary-text: #aaa; }
-        :root[data-theme="mint"] { --bg-image: linear-gradient(to right, #E0EFCF, #A7C4A5); --card-bg: rgba(255, 255, 255, 0.85); --primary-text: #216353; --secondary-text: #528E7E; --accent-color: #2E8B57; }
-        :root[data-theme="lavender"] { --bg-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%); --card-bg: rgba(255, 255, 255, 0.6); --primary-text: #3f3c62; --secondary-text: #5c5892; --accent-color: #9370DB; }
-        :root[data-theme="slate"] { --bg-image: linear-gradient(to right, #485563, #29323c); --card-bg: rgba(52, 63, 75, 0.9); --primary-text: #fff; --secondary-text: #ccc; --accent-color: #82aaff; }
-        :root[data-theme="mango"] { --bg-image: linear-gradient(to right, #fdbb2d, #22c1c3); --card-bg: rgba(0, 0, 0, 0.5); --primary-text: #fff; --secondary-text: #f0f0f0; --accent-color: #fff; }
-        :root[data-theme="deep-space"] { --bg-image: linear-gradient(to right, #434343 0%, black 100%); --card-bg: rgba(30, 30, 30, 0.8); --primary-text: #fff; --secondary-text: #aaa; --accent-color: #F89B29; }
-        :root[data-theme="nebula"] { --bg-image: url('https://images.pexels.com/photos/1169754/pexels-photo-1169754.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'); --card-bg: rgba(0, 0, 0, 0.7); --primary-text: #fff; --secondary-text: #e0e0e0; --accent-color: #d652c8; }
-        :root[data-theme="linen"] { --bg-image: url('https://www.transparenttextures.com/patterns/linen.png'), linear-gradient(#e6e6e6, #d5d5d5); --card-bg: rgba(255, 255, 255, 0.8); --primary-text: #333; --secondary-text: #555; --accent-color: #b22222; }
-        :root[data-theme="carbon"] { --bg-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png'), #333; --card-bg: rgba(0, 0, 0, 0.7); --primary-text: #fff; --secondary-text: #ccc; --accent-color: #d4af37; }
-
-        /* --- GENERAL & LAYOUT STYLES --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body { 
-            font-family: 'Poppins', sans-serif; 
-            background-color: var(--bg-color, #1f2029); 
-            background-image: var(--bg-image); 
-            background-size: cover; 
-            background-attachment: fixed; 
-            color: var(--primary-text); 
-            display: grid;
-            place-items: center;
-            min-height: 100vh;
-            min-height: 100dvh; /* For mobile browsers */
-            padding: 1rem;
-        }
-        .container { 
-            width: 100%; 
-            max-width: 900px; 
-            background: var(--card-bg); 
-            border-radius: 20px; 
-            border: 1px solid var(--border-color); 
-            backdrop-filter: blur(25px); 
-            -webkit-backdrop-filter: blur(25px); 
-            box-shadow: 0 8px 32px 0 var(--shadow-color); 
-            padding: clamp(1rem, 5vw, 2rem); /* Responsive padding */
-            transition: background-color 0.5s, border-color 0.5s; 
-            text-shadow: 0 1px 3px rgba(0,0,0,0.4); 
-        }
-        
-        header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 25px; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
-        .header-title { display: flex; flex-direction: column; }
-        header h1 { font-weight: 600; font-size: clamp(1.4rem, 4vw, 1.8rem); }
-        #save-status { font-size: 0.75rem; color: var(--secondary-text); height: 16px; transition: opacity 0.5s; }
-        .actions button { background: rgba(255, 255, 255, 0.1); border: 1px solid var(--border-color); color: var(--primary-text); width: 40px; height: 40px; border-radius: 50%; margin-left: 10px; cursor: pointer; font-size: 1rem; transition: background-color 0.3s, transform 0.2s; }
-        .actions button:hover { background-color: var(--accent-color); transform: translateY(-3px); }
-
-        #tracker-table-container { overflow-x: auto; }
-        table { width: 100%; border-collapse: separate; border-spacing: 0 8px; }
-        th, td { padding: 15px; text-align: left; }
-        th { font-weight: 400; color: var(--secondary-text); text-transform: uppercase; font-size: 0.8rem; }
-        td { background: rgba(0,0,0,0.1); vertical-align: middle; }
-        tr:not(:first-child) { box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        td:first-child { font-weight: 600; border-top-left-radius: 10px; border-bottom-left-radius: 10px; }
-        td:last-child { border-top-right-radius: 10px; border-bottom-right-radius: 10px; }
-        td.platform-cell { text-align: center; }
-        .cell-content { display: flex; flex-direction: column; align-items: center; gap: 10px; }
-
-        .custom-checkbox input { display: none; }
-        .custom-checkbox label { cursor: pointer; width: 28px; height: 28px; border: 2px solid var(--border-color); border-radius: 8px; display: inline-block; position: relative; transition: all 0.3s ease; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3)); }
-        .custom-checkbox input:checked + label { background-color: var(--accent-color); border-color: var(--accent-color); transform: scale(0.9); box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); }
-        .custom-checkbox input:checked + label::after { content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); color: white; font-size: 16px; text-shadow: none; }
-
-        .number-bubbles-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; min-height: 25px; }
-        .number-bubble { background-color: var(--accent-color); color: white; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 600; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3)); text-shadow: none; }
-        .add-number-form { display: flex; align-items: center; gap: 5px; }
-        .add-number-form input { width: 40px; padding: 2px 5px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 5px; color: var(--primary-text); text-align: center; -moz-appearance: textfield; }
-        .add-number-form input::-webkit-outer-spin-button, .add-number-form input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-        .add-number-form button { background: var(--secondary-text); color: var(--primary-text); border: none; width: 20px; height: 20px; border-radius: 50%; cursor: pointer; font-weight: bold; }
-
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; }
-        .modal-overlay:not(.hidden) { opacity: 1; visibility: visible; }
-        .modal-content { background: var(--card-bg); padding: 30px; border-radius: 15px; border: 1px solid var(--border-color); box-shadow: 0 8px 32px 0 var(--shadow-color); width: 90%; max-width: 500px; position: relative; max-height: 80vh; overflow-y: auto; text-shadow: 0 1px 3px rgba(0,0,0,0.4); }
-        .modal-content.wide { max-width: 800px; }
-        .close-btn { position: absolute; top: 15px; right: 15px; background: none; border: none; color: var(--primary-text); font-size: 1.8rem; cursor: pointer; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; }
-        #theme-selector { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 15px; margin-top: 15px; }
-        .theme-swatch { height: 70px; border-radius: 10px; cursor: pointer; border: 2px solid var(--border-color); transition: transform 0.2s, border-color 0.2s; position: relative; overflow: hidden; }
-        .theme-swatch:hover { transform: scale(1.05); }
-        .theme-swatch.active { border-color: var(--accent-color); border-width: 3px; }
-        .theme-swatch span { position: absolute; bottom: 5px; left: 8px; font-size: 0.8rem; background: rgba(0,0,0,0.5); color: white; padding: 2px 5px; border-radius: 5px; text-shadow: none; }
-        .setting-section h3 { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; margin-bottom: 10px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px; }
-        .add-btn { background: none; border: 1px solid var(--secondary-text); color: var(--secondary-text); width: 24px; height: 24px; border-radius: 50%; cursor: pointer; }
-        .input-group { display: flex; align-items: center; margin-bottom: 10px; }
-        .input-group input { flex-grow: 1; padding: 10px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 5px; color: var(--primary-text); font-family: 'Poppins', sans-serif; }
-        .delete-btn { background: none; border: none; color: #ff5b5b; font-size: 1rem; cursor: pointer; padding: 10px; }
-        #save-settings-btn { width: 100%; padding: 12px; background: var(--accent-color); border: none; border-radius: 5px; color: white; font-size: 1rem; cursor: pointer; margin-top: 20px; }
-        .history-item { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px; margin-bottom: 15px; }
-        .history-item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .history-item-header h4 { color: var(--accent-color); }
-        .print-btn { background: var(--accent-color); color: white; border: none; border-radius: 5px; padding: 5px 10px; cursor: pointer; font-size: 0.8rem; }
-        .history-item table { border-spacing: 0 4px; }
-        .history-item table td { font-size: 0.9rem; padding: 8px; }
-        .history-item .fa-check-circle { color: var(--success-color); }
-        .history-item .fa-times-circle { color: var(--secondary-text); opacity: 0.7; }
-
-        #printable-area { display: none; }
-
-        /* --- PRINT STYLES (FIXED) --- */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .card-shadow { box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        .task-item { transition: all 0.3s ease; }
+        .task-item:hover { transform: translateY(-2px); }
+        .print-only { display: none; }
         @media print {
-            /* Aggressive reset for clean printing */
-            * {
-                background: transparent !important;
-                color: #000 !important;
-                box-shadow: none !important;
-                text-shadow: none !important;
-                filter: none !important;
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            body { background: white !important; }
+            .bg-blue-100, .bg-green-100, .bg-purple-100, .bg-pink-100, 
+            .bg-yellow-100, .bg-indigo-100, .bg-red-100, .bg-teal-100 { 
+                background: white !important; 
+                border: 1px solid #ccc !important; 
             }
-
-            body { background: #fff !important; }
-            body * { visibility: hidden; }
-            #printable-area, #printable-area * { visibility: visible; }
-            #printable-area { display: block !important; position: absolute; left: 0; top: 0; width: 100%; }
-            
-            .print-item { page-break-inside: avoid; margin-bottom: 30px; }
-            .print-item h2 { text-align: center; margin: 20px; font-size: 18px; border-bottom: 2px solid #ccc; padding-bottom: 10px; }
-            .print-item p { text-align: center; margin-top: -15px; margin-bottom: 20px; font-size: 12px; color: #555; }
-            .print-item table { width: 95%; margin: 0 auto; border-collapse: collapse; font-size: 10pt; }
-            .print-item th, .print-item td { border: 1px solid #ccc; padding: 8px; text-align: left; vertical-align: top; }
-            .print-item th { background-color: #f2f2f2 !important; }
-            .print-item .cell-content { display: flex; flex-direction: column; align-items: center; gap: 8px !important; }
-            .print-item .number-bubbles-container { display: flex; flex-wrap: wrap; gap: 5px !important; justify-content: center; }
-            
-            /* Use hardcoded colors for print indicators, not CSS variables */
-            .print-item .fa-check-circle { color: #22c55e !important; }
-            .print-item .fa-times-circle { color: #999 !important; }
-            .print-item .number-bubble { background-color: #4f46e5 !important; color: white !important; }
-            
-            /* Convert FontAwesome icons to text for printing */
-            .print-item .fa-check-circle::before { content: "✔"; font-family: sans-serif; }
-            .print-item .fa-times-circle::before { content: "✖"; font-family: sans-serif; }
+            .card-shadow { box-shadow: none !important; border: 1px solid #ddd !important; }
         }
     </style>
 </head>
-<body>
-
-    <div class="container">
-        <header>
-            <div class="header-title">
-                 <h1>My Test Progress</h1>
-                 <span id="save-status"></span>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <div class="gradient-bg text-white p-3 no-print">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-lg font-bold mb-1">📚 Daily Subjects</h1>
+                <p class="text-blue-100 text-xs" id="currentDate"></p>
             </div>
-            <div class="actions">
-                <button id="theme-btn" title="थीम बदलें"><i class="fas fa-palette"></i></button>
-                <button id="history-btn" title="हिस्ट्री देखें"><i class="fas fa-history"></i></button>
-                <button id="settings-btn" title="सेटिंग्स"><i class="fas fa-cog"></i></button>
+            <div class="flex gap-2">
+                <button onclick="openAddSubjectModal()" 
+                        class="bg-white bg-opacity-20 hover:bg-opacity-30 p-2 rounded-full transition-all duration-300 hover:scale-110">
+                    <span class="text-sm">➕</span>
+                </button>
+                <button onclick="openHistoryModal()" 
+                        class="bg-white bg-opacity-20 hover:bg-opacity-30 p-2 rounded-full transition-all duration-300 hover:scale-110">
+                    <span class="text-sm">📅</span>
+                </button>
+                <button onclick="openThemesModal()" 
+                        class="bg-white bg-opacity-20 hover:bg-opacity-30 p-2 rounded-full transition-all duration-300 hover:scale-110">
+                    <span class="text-sm">🎨</span>
+                </button>
             </div>
-        </header>
-        <main id="tracker-table-container"></main>
+        </div>
     </div>
 
-    <div id="theme-modal" class="modal-overlay hidden"><div class="modal-content"><button class="close-btn">&times;</button><h2>थीम चुनें</h2><div id="theme-selector"></div></div></div>
-    <div id="settings-modal" class="modal-overlay hidden"><div class="modal-content"><button class="close-btn">&times;</button><h2>सेटिंग्स</h2><div id="settings-form"><div class="setting-section" id="subject-names"><h3>विषयों के नाम <button class="add-btn" data-type="subject"><i class="fas fa-plus"></i></button></h3></div><div class="setting-section" id="platform-names"><h3>प्लेटफ़ॉर्म के नाम <button class="add-btn" data-type="platform"><i class="fas fa-plus"></i></button></h3></div><button id="save-settings-btn">सेटिंग्स सेव करें</button></div></div></div>
-    <div id="history-modal" class="modal-overlay hidden"><div class="modal-content wide"><button class="close-btn">&times;</button><div class="modal-header"><h2>हिस्ट्री लॉग</h2><button id="print-all-btn" class="print-btn"><i class="fas fa-print"></i> सबको प्रिंट करें</button></div><div id="history-content"></div></div></div>
-    
-    <div id="printable-area"></div>
+    <!-- Main Container -->
+    <div class="max-w-4xl mx-auto p-6">
+
+
+        <!-- Subjects Container -->
+        <div id="subjectsContainer" class="space-y-4">
+            <!-- Subjects will be dynamically added here -->
+        </div>
+
+        <!-- Print Header (Hidden by default) -->
+        <div class="print-only">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">📚 Daily Subjects Report</h1>
+                <p class="text-lg text-gray-600" id="printDate"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Subject Modal -->
+    <div id="addSubjectModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 no-print">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-xl max-w-md w-full p-6 transform transition-all">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">📝 नया विषय जोड़ें</h2>
+                    <button onclick="closeAddSubjectModal()" class="text-gray-500 hover:text-gray-700 text-2xl">✕</button>
+                </div>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">विषय का नाम</label>
+                        <input type="text" id="modalSubjectName" placeholder="जैसे: गणित, विज्ञान..." 
+                               class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                               onkeypress="if(event.key==='Enter') addSubjectFromModal()">
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">शुरुआत का समय</label>
+                            <input type="time" id="modalSubjectStartTime" 
+                                   class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                   onkeypress="if(event.key==='Enter') addSubjectFromModal()">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">अंत का समय</label>
+                            <input type="time" id="modalSubjectEndTime" 
+                                   class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                   onkeypress="if(event.key==='Enter') addSubjectFromModal()">
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-3 pt-4">
+                        <button onclick="addSubjectFromModal()" 
+                                class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition-colors">
+                            ➕ जोड़ें
+                        </button>
+                        <button onclick="closeAddSubjectModal()" 
+                                class="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 py-3 rounded-lg font-medium transition-colors">
+                            रद्द करें
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Themes Modal -->
+    <div id="themesModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 no-print">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-xl max-w-2xl w-full p-6 transform transition-all max-h-96 overflow-y-auto">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">🎨 Themes</h2>
+                    <button onclick="closeThemesModal()" class="text-gray-500 hover:text-gray-700 text-2xl">✕</button>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div onclick="applyTheme('default')" class="cursor-pointer p-4 rounded-lg border-2 hover:border-blue-500 transition-all">
+                        <div class="h-16 bg-gradient-to-r from-blue-400 to-purple-500 rounded mb-2"></div>
+                        <p class="text-sm font-medium text-center">Default Blue</p>
+                    </div>
+                    <div onclick="applyTheme('sunset')" class="cursor-pointer p-4 rounded-lg border-2 hover:border-blue-500 transition-all">
+                        <div class="h-16 bg-gradient-to-r from-orange-400 to-red-500 rounded mb-2"></div>
+                        <p class="text-sm font-medium text-center">Sunset Orange</p>
+                    </div>
+                    <div onclick="applyTheme('forest')" class="cursor-pointer p-4 rounded-lg border-2 hover:border-blue-500 transition-all">
+                        <div class="h-16 bg-gradient-to-r from-green-400 to-teal-500 rounded mb-2"></div>
+                        <p class="text-sm font-medium text-center">Forest Green</p>
+                    </div>
+                    <div onclick="applyTheme('ocean')" class="cursor-pointer p-4 rounded-lg border-2 hover:border-blue-500 transition-all">
+                        <div class="h-16 bg-gradient-to-r from-cyan-400 to-blue-600 rounded mb-2"></div>
+                        <p class="text-sm font-medium text-center">Ocean Blue</p>
+                    </div>
+                    <div onclick="applyTheme('lavender')" class="cursor-pointer p-4 rounded-lg border-2 hover:border-blue-500 transition-all">
+                        <div class="h-16 bg-gradient-to-r from-purple-400 to-pink-500 rounded mb-2"></div>
+                        <p class="text-sm font-medium text-center">Lavender Pink</p>
+                    </div>
+                    <div onclick="applyTheme('golden')" class="cursor-pointer p-4 rounded-lg border-2 hover:border-blue-500 transition-all">
+                        <div class="h-16 bg-gradient-to-r from-yellow-400 to-orange-500 rounded mb-2"></div>
+                        <p class="text-sm font-medium text-center">Golden Hour</p>
+                    </div>
+                    <div onclick="applyTheme('midnight')" class="cursor-pointer p-4 rounded-lg border-2 hover:border-blue-500 transition-all">
+                        <div class="h-16 bg-gradient-to-r from-gray-700 to-gray-900 rounded mb-2"></div>
+                        <p class="text-sm font-medium text-center">Midnight Dark</p>
+                    </div>
+                    <div onclick="applyTheme('cherry')" class="cursor-pointer p-4 rounded-lg border-2 hover:border-blue-500 transition-all">
+                        <div class="h-16 bg-gradient-to-r from-pink-400 to-red-500 rounded mb-2"></div>
+                        <p class="text-sm font-medium text-center">Cherry Blossom</p>
+                    </div>
+                    <div onclick="applyTheme('mint')" class="cursor-pointer p-4 rounded-lg border-2 hover:border-blue-500 transition-all">
+                        <div class="h-16 bg-gradient-to-r from-green-300 to-cyan-400 rounded mb-2"></div>
+                        <p class="text-sm font-medium text-center">Fresh Mint</p>
+                    </div>
+                    <div onclick="applyTheme('royal')" class="cursor-pointer p-4 rounded-lg border-2 hover:border-blue-500 transition-all">
+                        <div class="h-16 bg-gradient-to-r from-indigo-500 to-purple-600 rounded mb-2"></div>
+                        <p class="text-sm font-medium text-center">Royal Purple</p>
+                    </div>
+                    <div onclick="applyTheme('autumn')" class="cursor-pointer p-4 rounded-lg border-2 hover:border-blue-500 transition-all">
+                        <div class="h-16 bg-gradient-to-r from-amber-400 to-red-600 rounded mb-2"></div>
+                        <p class="text-sm font-medium text-center">Autumn Leaves</p>
+                    </div>
+                    <div onclick="applyTheme('arctic')" class="cursor-pointer p-4 rounded-lg border-2 hover:border-blue-500 transition-all">
+                        <div class="h-16 bg-gradient-to-r from-blue-200 to-cyan-300 rounded mb-2"></div>
+                        <p class="text-sm font-medium text-center">Arctic Ice</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- History Modal -->
+    <div id="historyModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 no-print">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-xl max-w-lg w-full p-6 transform transition-all max-h-96 overflow-y-auto">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">📅 History</h2>
+                    <button onclick="closeHistoryModal()" class="text-gray-500 hover:text-gray-700 text-2xl">✕</button>
+                </div>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">दिनांक चुनें</label>
+                        <select id="modalHistoryDate" onchange="loadHistoryFromModal()" 
+                                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <option value="">आज का दिन</option>
+                        </select>
+                    </div>
+                    
+                    <div id="historyPreview" class="bg-gray-50 rounded-lg p-4 min-h-32">
+                        <p class="text-gray-500 text-center">दिनांक चुनें या आज का डेटा देखें</p>
+                    </div>
+                    
+                    <div class="flex gap-3 pt-4">
+                        <button onclick="printHistoryFromModal()" 
+                                class="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-medium transition-colors">
+                            🖨️ Print करें
+                        </button>
+                        <button onclick="loadSelectedHistory()" 
+                                class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition-colors">
+                            📋 Load करें
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const dom = {
-                tableContainer: document.getElementById('tracker-table-container'),
-                saveStatus: document.getElementById('save-status'),
-                modals: { settings: document.getElementById('settings-modal'), history: document.getElementById('history-modal'), theme: document.getElementById('theme-modal'), },
-                buttons: { settings: document.getElementById('settings-btn'), history: document.getElementById('history-btn'), theme: document.getElementById('theme-btn'), saveSettings: document.getElementById('save-settings-btn'), printAll: document.getElementById('print-all-btn'), },
-                printableArea: document.getElementById('printable-area'),
+        let subjects = [];
+        let history = {};
+        let currentHistoryDate = null;
+        let currentTheme = 'default';
+
+        // Initialize app
+        function init() {
+            loadData();
+            loadSavedTheme();
+            updateCurrentDate();
+            loadHistoryDates();
+            renderSubjects();
+            setInterval(sortSubjectsByTime, 60000); // Sort every minute
+        }
+
+        // Load saved theme
+        function loadSavedTheme() {
+            const savedTheme = localStorage.getItem('selectedTheme');
+            if (savedTheme && themes[savedTheme]) {
+                applyTheme(savedTheme);
+            }
+        }
+
+        // Update current date display
+        function updateCurrentDate() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            document.getElementById('currentDate').textContent = now.toLocaleDateString('hi-IN', options);
+        }
+
+        // Modal functions
+        function openAddSubjectModal() {
+            document.getElementById('addSubjectModal').classList.remove('hidden');
+            document.getElementById('modalSubjectName').focus();
+        }
+
+        function closeAddSubjectModal() {
+            document.getElementById('addSubjectModal').classList.add('hidden');
+            document.getElementById('modalSubjectName').value = '';
+            document.getElementById('modalSubjectStartTime').value = '';
+            document.getElementById('modalSubjectEndTime').value = '';
+        }
+
+        function openHistoryModal() {
+            document.getElementById('historyModal').classList.remove('hidden');
+            loadHistoryDatesInModal();
+            showHistoryPreview();
+        }
+
+        function closeHistoryModal() {
+            document.getElementById('historyModal').classList.add('hidden');
+        }
+
+        function openThemesModal() {
+            document.getElementById('themesModal').classList.remove('hidden');
+        }
+
+        function closeThemesModal() {
+            document.getElementById('themesModal').classList.add('hidden');
+        }
+
+        // Theme configurations
+        const themes = {
+            default: { gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', name: 'Default Blue' },
+            sunset: { gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', name: 'Sunset Orange' },
+            forest: { gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', name: 'Forest Green' },
+            ocean: { gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)', name: 'Ocean Blue' },
+            lavender: { gradient: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)', name: 'Lavender Pink' },
+            golden: { gradient: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)', name: 'Golden Hour' },
+            midnight: { gradient: 'linear-gradient(135deg, #2c3e50 0%, #34495e 100%)', name: 'Midnight Dark' },
+            cherry: { gradient: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)', name: 'Cherry Blossom' },
+            mint: { gradient: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)', name: 'Fresh Mint' },
+            royal: { gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', name: 'Royal Purple' },
+            autumn: { gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', name: 'Autumn Leaves' },
+            arctic: { gradient: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)', name: 'Arctic Ice' }
+        };
+
+        function applyTheme(themeName) {
+            currentTheme = themeName;
+            const theme = themes[themeName];
+            if (theme) {
+                document.querySelector('.gradient-bg').style.background = theme.gradient;
+                localStorage.setItem('selectedTheme', themeName);
+            }
+            closeThemesModal();
+        }
+
+        // Add new subject from modal
+        function addSubjectFromModal() {
+            const name = document.getElementById('modalSubjectName').value.trim();
+            const startTime = document.getElementById('modalSubjectStartTime').value;
+            const endTime = document.getElementById('modalSubjectEndTime').value;
+            
+            if (!name) {
+                alert('कृपया विषय का नाम दर्ज करें');
+                return;
+            }
+            
+            if (!startTime || !endTime) {
+                alert('कृपया शुरुआत और अंत का समय दर्ज करें');
+                return;
+            }
+            
+            if (startTime >= endTime) {
+                alert('अंत का समय शुरुआत के समय से बाद होना चाहिए');
+                return;
+            }
+            
+            // Check for time overlap
+            const hasOverlap = subjects.some(subject => {
+                return timeRangesOverlap(startTime, endTime, subject.startTime, subject.endTime);
+            });
+            
+            if (hasOverlap) {
+                alert('इस समय में पहले से कोई विषय है। कृपया अलग समय चुनें।');
+                return;
+            }
+
+            const subject = {
+                id: Date.now(),
+                name: name,
+                startTime: startTime,
+                endTime: endTime,
+                tasks: [],
+                color: getRandomColor(),
+                expanded: false
             };
 
-            const themes = [ "default-dark", "light", "ocean", "forest", "sunset", "rose-gold", "cyberpunk", "mint", "lavender", "slate", "mango", "deep-space", "nebula", "linen", "carbon" ];
-            const defaultData = { subjects: ['गणित', 'विज्ञान', 'अंग्रेजी'], platforms: ['Platform-A', 'Platform-B'], checklist: {}, history: [], currentTheme: 'default-dark' };
-            let appData = JSON.parse(localStorage.getItem('testTrackerData_v7')) || defaultData;
-            
-            let historySaveTimer;
+            subjects.push(subject);
+            closeAddSubjectModal();
+            saveData();
+            renderSubjects();
+        }
+        
+        // Check if two time ranges overlap
+        function timeRangesOverlap(start1, end1, start2, end2) {
+            return start1 < end2 && start2 < end1;
+        }
 
-            function saveData() { localStorage.setItem('testTrackerData_v7', JSON.stringify(appData)); }
-            function applyTheme(themeName) { document.documentElement.setAttribute('data-theme', themeName); appData.currentTheme = themeName; saveData(); }
+        // Legacy function for backward compatibility
+        function addSubject() {
+            addSubjectFromModal();
+        }
+
+        // Get random color for subject cards
+        function getRandomColor() {
+            const colors = [
+                'bg-blue-100 border-blue-300',
+                'bg-green-100 border-green-300',
+                'bg-purple-100 border-purple-300',
+                'bg-pink-100 border-pink-300',
+                'bg-yellow-100 border-yellow-300',
+                'bg-indigo-100 border-indigo-300',
+                'bg-red-100 border-red-300',
+                'bg-teal-100 border-teal-300'
+            ];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        // Add task to subject
+        function addTask(subjectId) {
+            const input = document.getElementById(`taskInput-${subjectId}`);
+            const taskText = input.value.trim();
             
-            function populateThemes() {
-                const themeSelector = document.getElementById('theme-selector'); themeSelector.innerHTML = '';
-                themes.forEach(theme => {
-                    const swatch = document.createElement('div'); swatch.className = 'theme-swatch'; swatch.dataset.theme = theme; swatch.innerHTML = `<span>${theme}</span>`;
-                    document.documentElement.setAttribute('data-theme', theme);
-                    const style = getComputedStyle(document.documentElement);
-                    swatch.style.backgroundImage = style.getPropertyValue('--bg-image');
-                    swatch.style.backgroundColor = style.getPropertyValue('--bg-color');
-                    if (theme === appData.currentTheme) swatch.classList.add('active');
-                    swatch.addEventListener('click', () => { applyTheme(theme); themeSelector.querySelector('.active')?.classList.remove('active'); swatch.classList.add('active'); });
-                    themeSelector.appendChild(swatch);
+            if (!taskText) return;
+
+            const subject = subjects.find(s => s.id === subjectId);
+            if (subject) {
+                subject.tasks.push({
+                    id: Date.now(),
+                    text: taskText,
+                    completed: false
                 });
-                document.documentElement.setAttribute('data-theme', appData.currentTheme);
+                input.value = '';
+                hideTaskInput(subjectId);
+                saveData();
+                renderSubjects();
             }
-            
-            function renderTable() {
-                let tableHTML = '<table><thead><tr><th>विषय</th>';
-                appData.platforms.forEach(p => tableHTML += `<th>${p}</th>`);
-                tableHTML += '</tr></thead><tbody>';
-                appData.subjects.forEach((subject, subIndex) => {
-                    tableHTML += `<tr><td>${subject}</td>`;
-                    appData.platforms.forEach((platform, platIndex) => {
-                        const id = `cb-${subIndex}-${platIndex}`;
-                        if (!appData.checklist[id] || typeof appData.checklist[id] !== 'object') appData.checklist[id] = { checked: false, numbers: [] };
-                        const data = appData.checklist[id];
-                        const numbersHTML = data.numbers.map(n => `<div class="number-bubble">${n}</div>`).join('');
-                        tableHTML += `<td class="platform-cell"><div class="cell-content" data-id="${id}"><div class="custom-checkbox"><input type="checkbox" id="${id}" ${data.checked ? 'checked' : ''}><label for="${id}"></label></div><div class="number-bubbles-container">${numbersHTML}</div><div class="add-number-form"><input type="number" class="add-number-input" placeholder="अंक"><button class="add-number-btn">+</button></div></div></td>`;
-                    });
-                    tableHTML += '</tr>';
+        }
+
+        // Toggle task completion
+        function toggleTask(subjectId, taskId) {
+            const subject = subjects.find(s => s.id === subjectId);
+            if (subject) {
+                const task = subject.tasks.find(t => t.id === taskId);
+                if (task) {
+                    task.completed = !task.completed;
+                    saveData();
+                    renderSubjects();
+                }
+            }
+        }
+        
+        // Toggle all tasks in a subject
+        function toggleAllTasks(subjectId) {
+            const subject = subjects.find(s => s.id === subjectId);
+            if (subject && subject.tasks.length > 0) {
+                const allCompleted = subject.tasks.every(task => task.completed);
+                subject.tasks.forEach(task => {
+                    task.completed = !allCompleted;
                 });
-                tableHTML += '</tbody></table>';
-                dom.tableContainer.innerHTML = tableHTML;
+                saveData();
+                renderSubjects();
             }
-            
-            function openModal(modal) { modal.classList.remove('hidden'); }
-            function closeModal(modal) { modal.classList.add('hidden'); }
-            function addSettingInput(type, value = '') { const container = document.getElementById(`${type}-names`); const div = document.createElement('div'); div.className = 'input-group'; div.innerHTML = `<input type="text" value="${value}" placeholder="..."><button class="delete-btn"><i class="fas fa-times"></i></button>`; container.appendChild(div); }
-            function populateSettings() { ['subject', 'platform'].forEach(type => { document.getElementById(`${type}-names`).querySelectorAll('.input-group').forEach(el => el.remove()); appData[`${type}s`].forEach(name => addSettingInput(type, name)); }); }
-            function applySettings() { appData.subjects = Array.from(document.querySelectorAll('#subject-names .input-group input')).map(i => i.value.trim()).filter(Boolean); appData.platforms = Array.from(document.querySelectorAll('#platform-names .input-group input')).map(i => i.value.trim()).filter(Boolean); saveData(); renderTable(); closeModal(dom.modals.settings); }
-            
-            function updateSaveStatus(text, fadeOut = false) {
-                dom.saveStatus.textContent = text;
-                dom.saveStatus.style.opacity = 1;
-                if (fadeOut) { setTimeout(() => { dom.saveStatus.style.opacity = 0; }, 2000); }
-            }
-            
-            function autoSaveHistory() {
-                const today_id = new Date().toISOString().split('T')[0];
-                const today_display = new Date().toLocaleDateString('hi-IN', { day: 'numeric', month: 'long', year: 'numeric', weekday: 'long' });
-                const existingEntryIndex = appData.history.findIndex(item => item.saveDate === today_id);
-                const snapshot = { saveDate: today_id, displayDate: `${today_display} - ${new Date().toLocaleTimeString('hi-IN')}`, state: JSON.parse(JSON.stringify(appData.checklist)), subjects: [...appData.subjects], platforms: [...appData.platforms] };
-                if (existingEntryIndex > -1) { appData.history[existingEntryIndex] = snapshot; } else { appData.history.unshift(snapshot); if (appData.history.length > 365) appData.history.pop(); }
-                saveData(); updateSaveStatus('Last saved: just now', true);
-            }
+        }
 
-            function renderHistory() {
-                const content = document.getElementById('history-content');
-                if (appData.history.length === 0) { content.innerHTML = '<p>हिस्ट्री खाली है। बदलाव करने पर रिकॉर्ड अपने-आप सेव हो जाएगा।</p>'; dom.buttons.printAll.style.display = 'none'; return; }
-                dom.buttons.printAll.style.display = 'block';
-                content.innerHTML = appData.history.map((item, index) => {
-                    const table = renderTableForHistory(item);
-                    return `<div class="history-item"><div class="history-item-header"><h4>${item.displayDate}</h4><button class="print-btn" data-history-index="${index}"><i class="fas fa-print"></i> प्रिंट</button></div>${table}</div>`;
-                }).join('');
+        // Delete task
+        function deleteTask(subjectId, taskId) {
+            const subject = subjects.find(s => s.id === subjectId);
+            if (subject) {
+                subject.tasks = subject.tasks.filter(t => t.id !== taskId);
+                saveData();
+                renderSubjects();
             }
+        }
 
-            function printHistory(index) {
-                const item = appData.history[index];
-                if (!item) return;
-                const content = `<div class="print-item"><h2>टेस्ट प्रोग्रेस रिपोर्ट</h2><p>${item.displayDate}</p>${renderTableForHistory(item)}</div>`;
-                dom.printableArea.innerHTML = content;
-                window.print();
+        // Delete subject
+        function deleteSubject(subjectId) {
+            if (confirm('क्या आप इस विषय को हटाना चाहते हैं?')) {
+                subjects = subjects.filter(s => s.id !== subjectId);
+                saveData();
+                renderSubjects();
             }
+        }
 
-            function printAllHistory() {
-                if (appData.history.length === 0) { alert('प्रिंट करने के लिए कोई हिस्ट्री नहीं है।'); return; }
-                let allContent = '';
-                appData.history.forEach(item => {
-                    allContent += `<div class="print-item"><h2>टेस्ट प्रोग्रेस रिपोर्ट</h2><p>${item.displayDate}</p>${renderTableForHistory(item)}</div>`;
+        // Toggle subject expansion
+        function toggleSubject(subjectId) {
+            const subject = subjects.find(s => s.id === subjectId);
+            if (subject) {
+                // Close all other subjects
+                subjects.forEach(s => {
+                    if (s.id !== subjectId) {
+                        s.expanded = false;
+                    }
                 });
-                dom.printableArea.innerHTML = allContent;
-                window.print();
+                // Toggle current subject
+                subject.expanded = !subject.expanded;
+                saveData();
+                renderSubjects();
             }
-
-            function renderTableForHistory(item) {
-                let table = '<table><thead><tr><th>विषय</th>' + item.platforms.map(p => `<th>${p}</th>`).join('') + '</tr></thead><tbody>';
-                table += item.subjects.map((s, sIndex) => {
-                    let row = `<tr><td>${s}</td>`;
-                    row += item.platforms.map((p, pIndex) => {
-                        const id = `cb-${sIndex}-${pIndex}`;
-                        const data = item.state[id] || { checked: false, numbers: [] };
-                        const icon = data.checked ? '<i class="fas fa-check-circle"></i>' : '<i class="fas fa-times-circle"></i>';
-                        const numbersHTML = (data.numbers || []).map(n => `<div class="number-bubble">${n}</div>`).join('');
-                        return `<td class="platform-cell"><div class="cell-content">${icon}<div class="number-bubbles-container">${numbersHTML}</div></div></td>`;
-                    }).join('');
-                    return row + '</tr>';
-                }).join('');
-                return table + '</tbody></table>';
+        }
+        
+        // Show task input
+        function showTaskInput(subjectId) {
+            const container = document.getElementById(`taskInputContainer-${subjectId}`);
+            const input = document.getElementById(`taskInput-${subjectId}`);
+            if (container && input) {
+                container.classList.remove('hidden');
+                input.focus();
             }
+        }
+        
+        // Hide task input
+        function hideTaskInput(subjectId) {
+            const container = document.getElementById(`taskInputContainer-${subjectId}`);
+            const input = document.getElementById(`taskInput-${subjectId}`);
+            if (container && input) {
+                container.classList.add('hidden');
+                input.value = '';
+            }
+        }
 
-            dom.tableContainer.addEventListener('click', (e) => {
-                const cellContent = e.target.closest('.cell-content'); if (!cellContent) return; const id = cellContent.dataset.id; let changed = false;
-                if (e.target.tagName === 'LABEL' || e.target.tagName === 'INPUT' && e.target.type === 'checkbox') { appData.checklist[id].checked = document.getElementById(id).checked; changed = true;
-                } else if (e.target.classList.contains('add-number-btn')) { const input = e.target.previousElementSibling; const num = parseInt(input.value); if (!isNaN(num)) { appData.checklist[id].numbers.push(num); input.value = ''; renderTable(); changed = true; } }
-                if (changed) { saveData(); updateSaveStatus('Saving...'); clearTimeout(historySaveTimer); historySaveTimer = setTimeout(autoSaveHistory, 2000); }
+        // Sort subjects by time
+        function sortSubjectsByTime() {
+            const now = new Date();
+            const currentTime = now.getHours() * 60 + now.getMinutes();
+            
+            subjects.sort((a, b) => {
+                const timeA = a.startTime ? parseInt(a.startTime.split(':')[0]) * 60 + parseInt(a.startTime.split(':')[1]) : 540;
+                const timeB = b.startTime ? parseInt(b.startTime.split(':')[0]) * 60 + parseInt(b.startTime.split(':')[1]) : 540;
+                
+                // Current or upcoming subjects first
+                const diffA = timeA >= currentTime ? timeA - currentTime : timeA + 1440 - currentTime;
+                const diffB = timeB >= currentTime ? timeB - currentTime : timeB + 1440 - currentTime;
+                
+                return diffA - diffB;
             });
+            
+            renderSubjects();
+        }
 
-            dom.buttons.theme.addEventListener('click', () => { populateThemes(); openModal(dom.modals.theme); });
-            dom.buttons.settings.addEventListener('click', () => { populateSettings(); openModal(dom.modals.settings); });
-            dom.buttons.saveSettings.addEventListener('click', applySettings);
-            dom.buttons.history.addEventListener('click', () => { renderHistory(); openModal(dom.modals.history); });
-            dom.buttons.printAll.addEventListener('click', printAllHistory);
+        // Render all subjects
+        function renderSubjects() {
+            const container = document.getElementById('subjectsContainer');
+            
+            if (subjects.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-gray-500">
+                        <div class="text-6xl mb-4">📚</div>
+                        <p class="text-lg">अभी तक कोई विषय नहीं जोड़ा गया है</p>
+                        <p class="text-sm">ऊपर से नया विषय जोड़ें</p>
+                    </div>
+                `;
+                return;
+            }
 
-            dom.modals.settings.addEventListener('click', (e) => { const addBtn = e.target.closest('.add-btn'); const deleteBtn = e.target.closest('.delete-btn'); if (addBtn) addSettingInput(addBtn.dataset.type); if (deleteBtn) deleteBtn.closest('.input-group').remove(); });
-            dom.modals.history.addEventListener('click', (e) => { const printBtn = e.target.closest('.print-btn:not(#print-all-btn)'); if (printBtn) printHistory(parseInt(printBtn.dataset.historyIndex)); });
-            document.querySelectorAll('.modal-overlay .close-btn').forEach(btn => btn.addEventListener('click', () => closeModal(btn.closest('.modal-overlay'))));
+            container.innerHTML = subjects.map(subject => `
+                <div class="bg-white rounded-xl card-shadow ${subject.color} border-2 overflow-hidden">
+                    <!-- Compact Header (Always Visible) -->
+                    <div class="p-4 cursor-pointer hover:bg-opacity-80 transition-all ${subject.tasks.length > 0 && subject.tasks.every(t => t.completed) ? 'bg-green-50 border-green-400' : ''}" onclick="toggleSubject(${subject.id})">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center gap-3">
+                                <h3 class="text-lg font-semibold text-gray-800">${subject.name}</h3>
+                                <span class="bg-white px-2 py-1 rounded-full text-xs font-medium text-gray-600">
+                                    🕐 ${subject.startTime} - ${subject.endTime}
+                                </span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                ${subject.tasks.length > 0 ? `
+                                    <button onclick="toggleAllTasks(${subject.id}); event.stopPropagation();" 
+                                            class="w-6 h-6 rounded border-2 flex items-center justify-center transition-all hover:scale-110 ${subject.tasks.every(t => t.completed) ? 'bg-green-500 border-green-500 text-white' : 'border-gray-300 hover:border-green-400'}">
+                                        ${subject.tasks.every(t => t.completed) ? '✓' : ''}
+                                    </button>
+                                ` : ''}
+                                <span class="transform transition-transform ${subject.expanded ? 'rotate-180' : ''} text-gray-400">▼</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Expandable Details -->
+                    <div class="${subject.expanded ? 'block' : 'hidden'} border-t border-gray-200">
+                        <div class="p-4">
+                            <!-- Small Action Icons -->
+                            <div class="flex justify-end gap-2 mb-4 no-print">
+                                <button onclick="showTaskInput(${subject.id}); event.stopPropagation();" 
+                                        class="bg-blue-100 hover:bg-blue-200 text-blue-600 p-2 rounded-full transition-colors text-sm" title="नया कार्य जोड़ें">
+                                    ➕
+                                </button>
+                                <button onclick="deleteSubject(${subject.id}); event.stopPropagation();" 
+                                        class="bg-red-100 hover:bg-red-200 text-red-600 p-2 rounded-full transition-colors text-sm" title="विषय हटाएं">
+                                    🗑️
+                                </button>
+                            </div>
+                            
+                            <!-- Task Input (Hidden by default) -->
+                            <div id="taskInputContainer-${subject.id}" class="hidden mb-4 no-print">
+                                <div class="flex gap-2">
+                                    <input type="text" id="taskInput-${subject.id}" 
+                                           placeholder="कार्य का नाम..." 
+                                           class="flex-1 px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                                           onkeypress="if(event.key==='Enter') addTask(${subject.id})"
+                                           onclick="event.stopPropagation()">
+                                    <button onclick="addTask(${subject.id}); event.stopPropagation();" 
+                                            class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg transition-colors text-sm">
+                                        ✓
+                                    </button>
+                                    <button onclick="hideTaskInput(${subject.id}); event.stopPropagation();" 
+                                            class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-3 py-2 rounded-lg transition-colors text-sm">
+                                        ✕
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Tasks List -->
+                            <div class="space-y-2">
+                                ${subject.tasks.map(task => `
+                                    <div class="task-item flex items-center gap-3 p-2 bg-gray-50 rounded-lg border ${task.completed ? 'opacity-60' : ''}" onclick="event.stopPropagation()">
+                                        <input type="checkbox" ${task.completed ? 'checked' : ''} 
+                                               onchange="toggleTask(${subject.id}, ${task.id})"
+                                               class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
+                                        <span class="flex-1 text-sm ${task.completed ? 'line-through text-gray-500' : 'text-gray-800'}">${task.text}</span>
+                                        <button onclick="deleteTask(${subject.id}, ${task.id})" 
+                                                class="text-red-500 hover:text-red-700 text-xs no-print">
+                                            🗑️
+                                        </button>
+                                    </div>
+                                `).join('')}
+                                
+                                ${subject.tasks.length === 0 ? `
+                                    <div class="text-center py-3 text-gray-400">
+                                        <p class="text-sm">अभी तक कोई कार्य नहीं जोड़ा गया</p>
+                                    </div>
+                                ` : ''}
+                            </div>
 
-            applyTheme(appData.currentTheme); renderTable(); updateSaveStatus('Synced', true);
-        });
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
 
-        // Register Service Worker
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./service-worker.js')
-                    .then(registration => {
-                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                    })
-                    .catch(error => {
-                        console.log('ServiceWorker registration failed: ', error);
-                    });
+        // Save data to localStorage
+        function saveData() {
+            const today = new Date().toDateString();
+            
+            // Save current subjects
+            localStorage.setItem('dailySubjects', JSON.stringify(subjects));
+            
+            // Save to history
+            if (!history[today]) {
+                history[today] = [];
+            }
+            history[today] = JSON.parse(JSON.stringify(subjects));
+            localStorage.setItem('subjectsHistory', JSON.stringify(history));
+            
+            loadHistoryDates();
+        }
+
+        // Load data from localStorage
+        function loadData() {
+            const savedSubjects = localStorage.getItem('dailySubjects');
+            const savedHistory = localStorage.getItem('subjectsHistory');
+            
+            if (savedSubjects) {
+                subjects = JSON.parse(savedSubjects);
+            }
+            
+            if (savedHistory) {
+                history = JSON.parse(savedHistory);
+            }
+        }
+
+        // Load history dates in modal
+        function loadHistoryDatesInModal() {
+            const select = document.getElementById('modalHistoryDate');
+            // Clear existing options except first one
+            while (select.children.length > 1) {
+                select.removeChild(select.lastChild);
+            }
+            
+            Object.keys(history).forEach(date => {
+                const option = document.createElement('option');
+                option.value = date;
+                option.textContent = new Date(date).toLocaleDateString('hi-IN');
+                select.appendChild(option);
             });
         }
+
+        // Show history preview in modal
+        function showHistoryPreview() {
+            const selectedDate = document.getElementById('modalHistoryDate').value;
+            const dataToShow = selectedDate ? (history[selectedDate] || []) : subjects;
+            const preview = document.getElementById('historyPreview');
+            
+            if (dataToShow.length === 0) {
+                preview.innerHTML = '<p class="text-gray-500 text-center">इस दिन कोई डेटा नहीं मिला</p>';
+                return;
+            }
+            
+            const totalTasks = dataToShow.reduce((sum, subject) => sum + subject.tasks.length, 0);
+            const completedTasks = dataToShow.reduce((sum, subject) => 
+                sum + subject.tasks.filter(task => task.completed).length, 0);
+            
+            preview.innerHTML = `
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm">
+                        <span class="font-medium">कुल विषय:</span>
+                        <span>${dataToShow.length}</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="font-medium">कुल कार्य:</span>
+                        <span>${totalTasks}</span>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span class="font-medium">पूर्ण कार्य:</span>
+                        <span class="text-green-600">${completedTasks}</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2 mt-3">
+                        <div class="bg-green-500 h-2 rounded-full" 
+                             style="width: ${totalTasks ? (completedTasks / totalTasks) * 100 : 0}%"></div>
+                    </div>
+                    <div class="text-xs text-gray-500 mt-2">
+                        ${dataToShow.map(s => s.name).join(', ')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Load history from modal
+        function loadHistoryFromModal() {
+            showHistoryPreview();
+        }
+
+        // Load selected history and close modal
+        function loadSelectedHistory() {
+            const selectedDate = document.getElementById('modalHistoryDate').value;
+            
+            if (!selectedDate) {
+                // Load today's data
+                loadData();
+                currentHistoryDate = null;
+                renderSubjects();
+            } else {
+                // Load historical data
+                currentHistoryDate = selectedDate;
+                subjects = history[selectedDate] || [];
+                renderSubjects();
+            }
+            
+            closeHistoryModal();
+        }
+
+        // Print history from modal
+        function printHistoryFromModal() {
+            const selectedDate = document.getElementById('modalHistoryDate').value;
+            const dateToShow = selectedDate || new Date().toDateString();
+            const dataToShow = selectedDate ? (history[selectedDate] || []) : subjects;
+            
+            document.getElementById('printDate').textContent = new Date(dateToShow).toLocaleDateString('hi-IN', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            // Temporarily show print data
+            const originalSubjects = [...subjects];
+            subjects = dataToShow;
+            renderSubjects();
+            
+            // Close modal and print
+            closeHistoryModal();
+            window.print();
+            
+            // Restore original data
+            subjects = originalSubjects;
+            renderSubjects();
+        }
+
+        // Legacy functions for backward compatibility
+        function loadHistoryDates() {
+            loadHistoryDatesInModal();
+        }
+
+        function loadHistoryDate() {
+            loadSelectedHistory();
+        }
+
+        // Print history
+        function printHistory() {
+            const selectedDate = document.getElementById('historyDate').value;
+            const dateToShow = selectedDate || new Date().toDateString();
+            const dataToShow = selectedDate ? (history[selectedDate] || []) : subjects;
+            
+            document.getElementById('printDate').textContent = new Date(dateToShow).toLocaleDateString('hi-IN', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            // Temporarily show print data
+            const originalSubjects = [...subjects];
+            subjects = dataToShow;
+            renderSubjects();
+            
+            // Print
+            window.print();
+            
+            // Restore original data
+            subjects = originalSubjects;
+            renderSubjects();
+        }
+
+        // Initialize app when page loads
+        init();
     </script>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'977afc10d0fe99af',t:'MTc1NjYyNzEyNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>

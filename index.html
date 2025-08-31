@@ -229,7 +229,8 @@
             updateCurrentDate();
             loadHistoryDates();
             renderSubjects();
-            setInterval(sortSubjectsByTime, 60000); // Sort every minute
+            setInterval(sortSubjectsByTime, 30000); // Sort every 30 seconds for live updates
+            sortSubjectsByTime(); // Initial sort
         }
 
         // Load saved theme
@@ -415,6 +416,16 @@
             }
         }
         
+        // Check if subject is currently live
+        function isSubjectLive(subject) {
+            const now = new Date();
+            const currentTime = now.getHours() * 60 + now.getMinutes();
+            const startTime = subject.startTime ? parseInt(subject.startTime.split(':')[0]) * 60 + parseInt(subject.startTime.split(':')[1]) : 540;
+            const endTime = subject.endTime ? parseInt(subject.endTime.split(':')[0]) * 60 + parseInt(subject.endTime.split(':')[1]) : 540;
+            
+            return currentTime >= startTime && currentTime <= endTime;
+        }
+
         // Toggle all tasks in a subject
         function toggleAllTasks(subjectId) {
             const subject = subjects.find(s => s.id === subjectId);
@@ -484,7 +495,7 @@
             }
         }
 
-        // Sort subjects by time
+        // Sort subjects by time - Live time based sorting
         function sortSubjectsByTime() {
             const now = new Date();
             const currentTime = now.getHours() * 60 + now.getMinutes();
@@ -492,8 +503,24 @@
             subjects.sort((a, b) => {
                 const timeA = a.startTime ? parseInt(a.startTime.split(':')[0]) * 60 + parseInt(a.startTime.split(':')[1]) : 540;
                 const timeB = b.startTime ? parseInt(b.startTime.split(':')[0]) * 60 + parseInt(b.startTime.split(':')[1]) : 540;
+                const endTimeA = a.endTime ? parseInt(a.endTime.split(':')[0]) * 60 + parseInt(a.endTime.split(':')[1]) : 540;
+                const endTimeB = b.endTime ? parseInt(b.endTime.split(':')[0]) * 60 + parseInt(b.endTime.split(':')[1]) : 540;
                 
-                // Current or upcoming subjects first
+                // Check if subject is currently live (current time is between start and end)
+                const isLiveA = currentTime >= timeA && currentTime <= endTimeA;
+                const isLiveB = currentTime >= timeB && currentTime <= endTimeB;
+                
+                // Live subjects always come first
+                if (isLiveA && !isLiveB) return -1;
+                if (!isLiveA && isLiveB) return 1;
+                
+                // If both are live or both are not live, sort by proximity to current time
+                if (isLiveA && isLiveB) {
+                    // Both live, sort by start time
+                    return timeA - timeB;
+                }
+                
+                // For non-live subjects, upcoming subjects come before past subjects
                 const diffA = timeA >= currentTime ? timeA - currentTime : timeA + 1440 - currentTime;
                 const diffB = timeB >= currentTime ? timeB - currentTime : timeB + 1440 - currentTime;
                 
@@ -519,7 +546,7 @@
             }
 
             container.innerHTML = subjects.map(subject => `
-                <div class="bg-white rounded-xl card-shadow ${subject.color} border-2 overflow-hidden">
+                <div class="bg-white rounded-xl card-shadow ${subject.color} border-2 overflow-hidden ${isSubjectLive(subject) ? 'border-green-500 shadow-green-200' : ''}">
                     <!-- Compact Header (Always Visible) -->
                     <div class="p-4 cursor-pointer hover:bg-opacity-80 transition-all ${subject.tasks.length > 0 && subject.tasks.every(t => t.completed) ? 'bg-green-50 border-green-400' : ''}" onclick="toggleSubject(${subject.id})">
                         <div class="flex justify-between items-center">
@@ -528,6 +555,7 @@
                                 <span class="bg-white px-2 py-1 rounded-full text-xs font-medium text-gray-600">
                                     🕐 ${subject.startTime} - ${subject.endTime}
                                 </span>
+                                ${isSubjectLive(subject) ? '<span class="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-bold animate-pulse">🔴 LIVE</span>' : ''}
                             </div>
                             <div class="flex items-center gap-2">
                                 ${subject.tasks.length > 0 ? `
@@ -779,5 +807,5 @@
         // Initialize app when page loads
         init();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'977afc10d0fe99af',t:'MTc1NjYyNzEyNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'977aff72017799af',t:'MTc1NjYyNzI2NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>

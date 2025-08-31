@@ -1,5 +1,5 @@
 {
-  "name": "Test Progress Tracker Pro",
+  "name": "Daily Subjects Tracker",
   "short_name": "Test Tracker",
   "description": "A modern, offline-first app to track test progress across multiple subjects and platforms.",
   "start_url": "tracker.html",
@@ -22,3 +22,4 @@
     }
   ]
 }
+
